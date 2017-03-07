@@ -76,6 +76,10 @@ void processVideo()
 		erode(segFrame, segFrame, Mat(), Point(-1, -1), 2);
 		dilate(segFrame, segFrame, Mat(), Point(-1, -1), 2);
 
+		/*
+		 * Start tracking BLOBs here
+		 */
+
 		imshow("Original", curFrame);
 		imshow("Result", segFrame);
 
