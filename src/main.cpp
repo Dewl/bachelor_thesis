@@ -1,4 +1,14 @@
+/**
+ * @file main.cpp
+ * @brief The main entry point for the application
+ * @author Khoi Hoang & Kiet Chuong
+ * @version 1.0
+ * @date 2017-03-03
+ */
+
+
 #include <iostream>
+#include <vector>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -37,6 +47,9 @@ void processVideo()
 	vibeModel_Sequential_t *model = NULL;
 	bool init = false;
 
+	namedWindow("Original", WINDOW_NORMAL);
+	namedWindow("Result", WINDOW_NORMAL);
+
 	while (true) {
 		if (!cap.read(curFrame)) {
 			cerr << "Can not grab the next frame" << endl;
@@ -44,20 +57,24 @@ void processVideo()
 		}
 
 		if (!init) {
-			cout << "debug: first run, initializing..." << endl;
 			init = true;
 			segFrame = Mat(curFrame.rows, curFrame.cols, CV_8UC1);
-			model = (vibeModel_Sequential_t*) libvibeModel_Sequential_New();
+			model = (vibeModel_Sequential_t*)
+				libvibeModel_Sequential_New();
 			libvibeModel_Sequential_AllocInit_8u_C3R(model,
 					curFrame.data,
 					curFrame.cols,
 					curFrame.rows);
 		}
 
-		libvibeModel_Sequential_Segmentation_8u_C3R(model, curFrame.data, segFrame.data);
-		libvibeModel_Sequential_Update_8u_C3R(model, curFrame.data, segFrame.data);
-		
+		libvibeModel_Sequential_Segmentation_8u_C3R(model,
+				curFrame.data, segFrame.data);
+		libvibeModel_Sequential_Update_8u_C3R(model,
+				curFrame.data, segFrame.data);
+	
 		medianBlur(segFrame, segFrame, 5);
+		erode(segFrame, segFrame, Mat(), Point(-1, -1), 2);
+		dilate(segFrame, segFrame, Mat(), Point(-1, -1), 2);
 
 		imshow("Original", curFrame);
 		imshow("Result", segFrame);
