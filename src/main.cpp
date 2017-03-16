@@ -50,6 +50,9 @@ void processVideo()
 	namedWindow("Original", WINDOW_NORMAL);
 	namedWindow("Result", WINDOW_NORMAL);
 
+	vector<vector<Point> > contours;
+	vector<Vec4i> hierarchy;
+
 	while (true) {
 		if (!cap.read(curFrame)) {
 			cerr << "Can not grab the next frame" << endl;
@@ -76,12 +79,22 @@ void processVideo()
 		erode(segFrame, segFrame, Mat(), Point(-1, -1), 2);
 		dilate(segFrame, segFrame, Mat(), Point(-1, -1), 2);
 
-		/*
-		 * Start tracking BLOBs here
-		 */
+		contours.clear();
+		hierarchy.clear();
+		findContours(segFrame.clone(), contours, hierarchy, CV_RETR_EXTERNAL,
+				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-		imshow("Original", curFrame);
+		for (int i = 0; i < contours.size(); ++i) {
+			int contArea = contourArea(contours[i]);
+			if (contArea < 3000)
+				continue;
+			Rect rect = boundingRect(contours[i]);
+			rectangle(curFrame, rect.tl(),
+					rect.br(), Scalar(0, 255, 0), 2);
+		}
+
 		imshow("Result", segFrame);
+		imshow("Original", curFrame);
 
 		if (waitKey(33) == 'q') {
 			break;
