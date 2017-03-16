@@ -17,7 +17,7 @@
  */
 
 /**
- * @file matutil.h
+ * @file matutil.cpp
  * @brief The implementation for matutil.h
  * @author Khoi Hoang
  * @version 1.0

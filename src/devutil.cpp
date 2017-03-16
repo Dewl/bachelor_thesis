@@ -17,8 +17,8 @@
  */
 
 /**
- * @file devutil.h
- * @brief Utilities for project development
+ * @file devutil.cpp
+ * @brief Implementation for devutil.h
  * @author Khoi Hoang
  * @version 1.0
  * @date 2017-03-16
