@@ -2,7 +2,7 @@ LIBS_OPENCV = `$(PREFIX)pkg-config --libs opencv`
 INCLUDE_OPENCV = `$(PREFIX)pkg-config --cflags opencv`
 OPT = -Wall -O2
 
-all: vibe main
+all: vibe main devutil matutil
 	mkdir -p bin/
 	g++ $(OPT) $(INCLUDE_OPENCV) obj/*.o -o bin/main $(LIBS_OPENCV)
 vibe:
@@ -12,6 +12,14 @@ vibe:
 main:
 	mkdir -p obj/
 	g++ $(OPT) -c src/main.cpp
+	mv *.o obj/
+devutil:
+	mkdir -p obj/
+	g++ $(OPT) -c src/devutil.cpp
+	mv *.o obj/
+matutil:
+	mkdir -p obj/
+	g++ $(OPT) -c src/matutil.cpp
 	mv *.o obj/
 clean:
 	rm -f obj/*.o

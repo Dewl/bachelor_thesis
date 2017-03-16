@@ -1,3 +1,21 @@
+/* Copyright (C) 
+ * 2017 - Khoi Hoang, Kiet Chuong
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * 
+ */
+
 /**
  * @file main.cpp
  * @brief The main entry point for the application
@@ -10,10 +28,13 @@
 #include <iostream>
 #include <vector>
 
-#include <opencv/cv.h>
+//#include <opencv/cv.h>
 #include <opencv/highgui.h>
 
 #include "vibe.h"
+#include "matutil.h"
+#include "devutil.h"
+#include "const.h"
 
 using namespace std;
 using namespace cv;
@@ -39,24 +60,18 @@ void processVideo()
 {
 	VideoCapture cap(INPUT);
 	if (!cap.isOpened()) {
-		cerr << "Can not open video" << endl;
-		exit(EXIT_FAILURE);
+		error("ERROR: Unable to open video source.");
 	}
 
 	Mat curFrame, segFrame;
 	vibeModel_Sequential_t *model = NULL;
 	bool init = false;
-
-	namedWindow("Original", WINDOW_NORMAL);
-	namedWindow("Result", WINDOW_NORMAL);
-
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
 
 	while (true) {
 		if (!cap.read(curFrame)) {
-			cerr << "Can not grab the next frame" << endl;
-			exit(EXIT_FAILURE);
+			error("ERROR: Failed to grab the next video frame.");
 		}
 
 		if (!init) {
@@ -74,23 +89,18 @@ void processVideo()
 				curFrame.data, segFrame.data);
 		libvibeModel_Sequential_Update_8u_C3R(model,
 				curFrame.data, segFrame.data);
-	
-		medianBlur(segFrame, segFrame, 5);
-		erode(segFrame, segFrame, Mat(), Point(-1, -1), 2);
-		dilate(segFrame, segFrame, Mat(), Point(-1, -1), 2);
+		refineBlob(segFrame);
 
-		contours.clear();
-		hierarchy.clear();
 		findContours(segFrame.clone(), contours, hierarchy, CV_RETR_EXTERNAL,
 				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-		for (int i = 0; i < contours.size(); ++i) {
+		for (unsigned int i = 0; i < contours.size(); ++i) {
 			int contArea = contourArea(contours[i]);
 			if (contArea < 3000)
 				continue;
 			Rect rect = boundingRect(contours[i]);
 			rectangle(curFrame, rect.tl(),
-					rect.br(), Scalar(0, 255, 0), 2);
+					rect.br(), COLOR_GREEN, 2);
 		}
 
 		imshow("Result", segFrame);
