@@ -36,6 +36,25 @@ using namespace cv;
  *
  * @param binImage
  */
-void refineBlob(Mat binImage);
+void refineBlob(Mat& binImage);
+
+
+/**
+ * @brief Draws a rectangle
+ *
+ * @param canvas
+ * @param rect
+ */
+void drawRect(Mat& canvas, const Rect& rect);
+
+
+/**
+ * @brief  Returns the center point of a rectangle
+ *
+ * @param rect
+ *
+ * @return Point
+ */
+Point rectCenter(const Rect& rect);
 
 #endif /* !MATUTIL_H */

@@ -99,8 +99,8 @@ void processVideo()
 			if (contArea < 3000)
 				continue;
 			Rect rect = boundingRect(contours[i]);
-			rectangle(curFrame, rect.tl(),
-					rect.br(), COLOR_GREEN, 2);
+			//Point center = rectCenter(rect);
+			drawRect(curFrame, rect);
 		}
 
 		imshow("Result", segFrame);

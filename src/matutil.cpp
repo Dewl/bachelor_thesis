@@ -25,10 +25,23 @@
  */
 
 #include "matutil.h"
+#include "const.h"
 
-void refineBlob(Mat binImage)
+void refineBlob(Mat& binImage)
 {
 	medianBlur(binImage, binImage, 5);
 	erode(binImage, binImage, Mat(), Point(-1, -1), 2);
 	dilate(binImage, binImage, Mat(), Point(-1, -1), 2);
+}
+
+Point rectCenter(const Rect& rect)
+{
+	Point ret = Point((rect.x + rect.width) / 2,
+			(rect.y + rect.height) / 2);
+	return ret;
+}
+
+void drawRect(Mat& canvas, const Rect& rect)
+{
+	rectangle(canvas, rect.tl(), rect.br(), COLOR_GREEN, 2);
 }

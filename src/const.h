@@ -28,5 +28,6 @@
 #define CONSTANT_H
 
 #define COLOR_GREEN Scalar(0, 255, 0)
+#define COLOR_RED Scalar(0, 0, 255)
 
 #endif /* !CONSTANT_H */
