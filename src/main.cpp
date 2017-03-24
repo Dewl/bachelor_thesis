@@ -31,7 +31,7 @@
 using namespace std;
 using namespace cv;
 
-#define INPUT "input.mp4"
+#define INPUT "input.avi"
 #define drawCross(img, center, color, d )                                 \
 line( img, Point( center.x - d, center.y - d ), Point( center.x + d, center.y + d ), color, 2, CV_AA, 0); \
 line( img, Point( center.x + d, center.y - d ), Point( center.x - d, center.y + d ), color, 2, CV_AA, 0 )
