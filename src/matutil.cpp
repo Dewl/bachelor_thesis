@@ -38,28 +38,3 @@ void refineBlob(Mat& binImage)
 	erode(binImage, binImage, Mat(), Point(-1, -1), 2);
 	dilate(binImage, binImage, Mat(), Point(-1, -1), 2);
 }
-
-Point rectCenter(const Rect& rect)
-{
-	Point ret = Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
-	return ret;
-}
-
-void drawRect(Mat& canvas, const Rect& rect, int id)
-{
-	ostringstream convert;
-	convert << id;
-	rectangle(canvas, rect.tl(), rect.br(), COLOR_GREEN, 2);
-	drawText(canvas, convert.str(), rect);
-}
-
-void drawPoint(Mat& canvas, const Point& point)
-{
-	circle(canvas, point, 0,CV_RGB(255,0,0),3);
-}
-
-void drawText(Mat& canvas, const string& str, const Rect& rect)
-{
-	putText(canvas, str, Point(rect.x, rect.y), FONT_HERSHEY_COMPLEX_SMALL, 0.8,
-			cvScalar(0, 0, 255), 1, CV_AA);
-}
