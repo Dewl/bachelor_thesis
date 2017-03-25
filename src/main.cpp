@@ -39,7 +39,7 @@
 using namespace std;
 using namespace cv;
 
-#define INPUT "input.mp4"
+#define INPUT "input.avi"
 
 /* Prototypes */
 void processVideo();
@@ -94,13 +94,16 @@ void processVideo()
 		findContours(segFrame.clone(), contours, hierarchy, CV_RETR_EXTERNAL,
 				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
+		int blobId = -1;
 		for (unsigned int i = 0; i < contours.size(); ++i) {
 			int contArea = contourArea(contours[i]);
-			if (contArea < 3000)
+			if (contArea < 400)
 				continue;
+			blobId += 1;
 			Rect rect = boundingRect(contours[i]);
-			//Point center = rectCenter(rect);
-			drawRect(curFrame, rect);
+			Point center = rectCenter(rect);
+			drawRect(curFrame, rect, blobId);
+			drawPoint(curFrame, center);
 		}
 
 		imshow("Result", segFrame);

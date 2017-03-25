@@ -45,8 +45,25 @@ void refineBlob(Mat& binImage);
  * @param canvas
  * @param rect
  */
-void drawRect(Mat& canvas, const Rect& rect);
+void drawRect(Mat& canvas, const Rect& rect, int id);
 
+
+/**
+ * @brief Draws a point
+ *
+ * @param point
+ */
+void drawPoint(Mat& canvas, const Point& point);
+
+
+/**
+ * @brief Draw blob info
+ *
+ * @param canvas
+ * @param str
+ * @param rect
+ */
+void drawText(Mat& canvas, const string& str, const Rect& rect);
 
 /**
  * @brief  Returns the center point of a rectangle
