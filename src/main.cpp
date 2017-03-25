@@ -329,4 +329,5 @@ void processVideo_running(KalmanFilter kf, Mat state, Mat meas)
 	}
 	
 	cap.release();
+	libvibeModel_Sequential_Free(model);
 }
