@@ -2,7 +2,7 @@ LIBS_OPENCV = `$(PREFIX)pkg-config --libs opencv`
 INCLUDE_OPENCV = `$(PREFIX)pkg-config --cflags opencv`
 OPT = -Wall -O2
 
-all: vibe main devutil matutil tracker blob
+all: vibe main devutil matutil tracker blob extractor
 	mkdir -p bin/
 	g++ $(OPT) $(INCLUDE_OPENCV) obj/*.o -o bin/main $(LIBS_OPENCV)
 vibe:
@@ -30,6 +30,11 @@ blob:
 tracker:
 	mkdir -p obj/
 	g++ $(OPT) -c src/tracker.cpp
+	mv *.o obj/
+
+extractor:
+	mkdir -p obj/
+	g++ $(OPT) -c src/extractor.cpp
 	mv *.o obj/
 
 clean:

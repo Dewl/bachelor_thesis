@@ -79,19 +79,20 @@ void drawBoundary(Mat& canvas, int y_up, int y_down)
 
 	Point up1 = Point(x1, y_up);
 	Point up2 = Point(x2, y_up);
-	
+
 	Point down1 = Point(x1, y_down);
 	Point down2 = Point(x2, y_down);
 
-	line(canvas, up1, up2, COLOR_BLUE);
-	line(canvas, down1, down2, COLOR_BLUE);
+	line(canvas, up1, up2, COLOR_GREEN);
+	line(canvas, down1, down2, COLOR_GREEN);
 }
 
-void drawInfo(Mat& canvas, int in, int out)
+void drawInfo(Mat& canvas, int upper, int lower)
 {
 	ostringstream convert;
-	convert << "LOWER = " << in << ", UPPER = " << out;
+	convert << "UPPER= " << upper << ", LOWER= " << lower;
 	putText(canvas, convert.str(), Point(20, 20),
-			FONT_HERSHEY_COMPLEX_SMALL, 0.9,
-			COLOR_CYAN, 1, CV_AA);
+			FONT_HERSHEY_COMPLEX_SMALL, 0.8,
+			COLOR_YELLOW, 1, CV_AA);
 }
+

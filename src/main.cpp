@@ -40,21 +40,22 @@
 #include "devutil.h"
 #include "const.h"
 #include "tracker.h"
+#include "extractor.h"
 
 using namespace std;
 using namespace cv;
 
 #define INPUT "input.avi"
 
-#define Y_UP 150
-#define Y_DOWN 350
+#define Y_UP 100
+#define Y_DOWN 400
 
 #define BLOB_SIZE 4000
 #define TTL 30
+#define RATIO 0.6
 
 /* Prototypes */
 void processVideo();
-void start(KalmanFilter, Mat, Mat);
 
 /**
  * This is for testing purposes only. The input is fixed with input.mp4
@@ -81,14 +82,14 @@ void processVideo()
 	bool init = false;
 
 	Tracker tracker(Y_UP, Y_DOWN, TTL);
+	Extractor extractor;
+	extractor.setMinArea(BLOB_SIZE);
+	extractor.setRatio(RATIO);
 
 	while (true) {
 		if (!cap.read(origin)) {
 			break;
 		}
-
-		//drawBoundary(origin, Y_UP, Y_DOWN);
-		//drawInfo(origin, in, out);
 
 		if (!init) {
 			init = true;
@@ -114,40 +115,12 @@ void processVideo()
 		findContours(foreground.clone(), contours, CV_RETR_EXTERNAL,
 				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-		//vector<vector<Point> > blobs;
-		//vector<Rect> blobRect;
-		vector<Point> centerPoints;
-
-		for (size_t i = 0; i < contours.size(); i++) {
-			Rect bBox = boundingRect(contours[i]);
-			float ratio = (float) bBox.width / (float) bBox.height;
-
-			if (ratio > 1.0f)
-				ratio = 1.0f / ratio;
-
-			if (ratio > 0.6 && bBox.area() > BLOB_SIZE) {
-				//blobs.push_back(contours[i]);
-				//blobRect.push_back(bBox);
-				centerPoints.push_back(rectCenter(bBox));
-			}
-		}
+		vector<Point> centerPoints = extractor.extractPoints(contours);
 
 		tracker.receive(centerPoints);
 		tracker.display(origin);
 
-		//for (size_t i = 0; i < blobs.size(); i++)
-		//{
-			//drawRect(origin, blobRect[i], i);
-			//Point center = rectCenter(blobRect[i]);
-			//cout << "debug:center: " << center.y << endl;
-			//drawPoint(origin, center);
-		//}
-		
-		
-
-		// Final result
 		imshow("Tracking", origin);
-		//imshow("Result", foreground);
 
 		if (waitKey(33) == 'q') {
 			break;

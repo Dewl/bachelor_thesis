@@ -1,5 +1,5 @@
 /* Copyright (C) 
- * 2017 - Khoi Hoang, Kiet Chuong
+ * 2017 - Khoi Hoang
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -17,21 +17,49 @@
  */
 
 /**
- * @file const.h
- * @brief Constants
+ * @file extractor.h
+ * @brief Takes responsibility to extract appropriate blobs.
  * @author Khoi Hoang
  * @version 1.0
- * @date 2017-03-16
+ * @date 2017-04-01
  */
 
-#ifndef CONSTANT_H
-#define CONSTANT_H
+#ifndef EXTRACTOR_H
+#define EXTRACTOR_H
 
-#define COLOR_GREEN Scalar(0, 255, 0)
-#define COLOR_RED Scalar(0, 0, 255)
-#define COLOR_BLUE Scalar(255, 0, 0)
-#define COLOR_CYAN Scalar(255, 255, 0)
-#define COLOR_YELLOW Scalar(0, 255, 255)
-#define COLOR_PURPLE Scalar(255, 0, 255)
+#include <vector>
 
-#endif /* !CONSkkTANT_H */
+#include <opencv/cv.h>
+
+using namespace std;
+using namespace cv;
+
+class Extractor
+{
+	private:
+		int minArea;
+		int ratio;
+	public:
+		/**
+		 * @brief Set minimum area for blobs.
+		 *
+		 * @param a - integer - area
+		 */
+		void setMinArea(int a);
+
+		/**
+		 * @brief Set ratio for bounding rectangle
+		 * 
+		 * @param r - double - ration
+		 */
+		void setRatio(double r);
+
+		/**
+		 * @brief 
+		 *
+		 * @param c - contours.
+		 */
+		vector<Point> extractPoints(vector<vector<Point> >& c);
+};
+
+#endif /* !EXTRACTOR_H */

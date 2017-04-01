@@ -27,9 +27,12 @@
 #ifndef MATUTIL_H
 #define MATUTIL_H
 
+#include <vector>
+
 #include <opencv/cv.h>
 
 using namespace cv;
+using namespace std;
 
 /**
  * @brief Significantly reduces the noise and correctly splits the blobs

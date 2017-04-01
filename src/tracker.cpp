@@ -68,7 +68,6 @@ int Tracker::requestBestId(const Point& point)
 			}
 		}
 	}
-	
 	return bestId;
 }
 
@@ -76,7 +75,7 @@ void Tracker::receive(const vector<Point>& points)
 {
 	for (int i = 0; i < TRACKER_CAP; ++i) {
 		if (blobPool[i].isActivated()) {
-			cout << "debug: blob #" << i << " ttl: " << blobPool[i].getTtl() << endl;
+			//cout << "debug: blob #" << i << " ttl: " << blobPool[i].getTtl() << endl;
 			blobPool[i].increaseDeadTime();
 			int deadTime = 0;
 			if (blobPool[i].isUpper() || blobPool[i].isLower()) {

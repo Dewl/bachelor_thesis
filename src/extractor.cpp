@@ -1,5 +1,5 @@
 /* Copyright (C) 
- * 2017 - Khoi Hoang, Kiet Chuong
+ * 2017 - Khoi Hoang
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -17,21 +17,39 @@
  */
 
 /**
- * @file const.h
- * @brief Constants
+ * @file extractor.h
+ * @brief The implementation for extractor.h
  * @author Khoi Hoang
  * @version 1.0
- * @date 2017-03-16
+ * @date 2017-04-01
  */
+#include "extractor.h"
+#include "matutil.h"
 
-#ifndef CONSTANT_H
-#define CONSTANT_H
+void Extractor::setMinArea(int a)
+{
+	minArea = a;
+}
 
-#define COLOR_GREEN Scalar(0, 255, 0)
-#define COLOR_RED Scalar(0, 0, 255)
-#define COLOR_BLUE Scalar(255, 0, 0)
-#define COLOR_CYAN Scalar(255, 255, 0)
-#define COLOR_YELLOW Scalar(0, 255, 255)
-#define COLOR_PURPLE Scalar(255, 0, 255)
+void Extractor::setRatio(double r)
+{
+	ratio = r;
+}
 
-#endif /* !CONSkkTANT_H */
+vector<Point> Extractor::extractPoints(vector<vector<Point> >& c)
+{
+	vector<Point> centerPoints;
+	for (size_t i = 0; i < c.size(); i++) {
+		Rect bBox = boundingRect(c[i]);
+		float r = (float) bBox.width / (float) bBox.height;
+
+		if (r > 1.0f)
+			r = 1.0f / r;
+
+		if (r > ratio && bBox.area() > minArea) {
+			centerPoints.push_back(rectCenter(bBox));
+		}
+	}
+
+	return centerPoints;
+}
