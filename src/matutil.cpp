@@ -38,3 +38,60 @@ void refineBlob(Mat& binImage)
 	erode(binImage, binImage, Mat(), Point(-1, -1), 2);
 	dilate(binImage, binImage, Mat(), Point(-1, -1), 2);
 }
+
+Point rectCenter(const Rect& rect)
+{
+	Point ret = Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
+	return ret;
+}
+
+void drawRect(Mat& canvas, const Rect& rect, int id)
+{
+	ostringstream convert;
+	convert << id;
+	rectangle(canvas, rect.tl(), rect.br(), COLOR_GREEN, 2);
+	drawTextRect(canvas, convert.str(), rect);
+}
+
+void drawPoint(Mat& canvas, const Point& point)
+{
+	circle(canvas, point, 0,CV_RGB(255,0,0),3);
+}
+
+void drawTextRect(Mat& canvas, const string& str, const Rect& rect)
+{
+	putText(canvas, str, Point(0, 0),
+			FONT_HERSHEY_COMPLEX_SMALL, 0.8,
+			COLOR_RED, 1, CV_AA);
+}
+
+void drawText(Mat& canvas, const string& str, const Point& point)
+{
+	putText(canvas, str, point,
+			FONT_HERSHEY_COMPLEX_SMALL, 1.0,
+			COLOR_YELLOW, 1, CV_AA);
+}
+
+void drawBoundary(Mat& canvas, int y_up, int y_down)
+{
+	int x1 = 0;
+	int x2 = canvas.cols;
+
+	Point up1 = Point(x1, y_up);
+	Point up2 = Point(x2, y_up);
+	
+	Point down1 = Point(x1, y_down);
+	Point down2 = Point(x2, y_down);
+
+	line(canvas, up1, up2, COLOR_BLUE);
+	line(canvas, down1, down2, COLOR_BLUE);
+}
+
+void drawInfo(Mat& canvas, int in, int out)
+{
+	ostringstream convert;
+	convert << "LOWER = " << in << ", UPPER = " << out;
+	putText(canvas, convert.str(), Point(20, 20),
+			FONT_HERSHEY_COMPLEX_SMALL, 0.9,
+			COLOR_CYAN, 1, CV_AA);
+}

@@ -63,7 +63,7 @@ void drawPoint(Mat& canvas, const Point& point);
  * @param str
  * @param rect
  */
-void drawText(Mat& canvas, const string& str, const Rect& rect);
+void drawTextRect(Mat& canvas, const string& str, const Rect& rect);
 
 /**
  * @brief  Returns the center point of a rectangle
@@ -73,5 +73,35 @@ void drawText(Mat& canvas, const string& str, const Rect& rect);
  * @return Point
  */
 Point rectCenter(const Rect& rect);
+
+
+/**
+ * @brief Draws the upper and lower line to determine if a person is going
+ * in or going out.
+ *
+ * @param y_up
+ * @param y_down
+ * @param canvas
+ */
+void drawBoundary(Mat& canvas, int y_up, int y_down);
+
+/**
+ * @brief Displays informations regarding to results.
+ *
+ * @param canvas
+ * @param in - number of people coming in.
+ * @param out - number of people coming out.
+ */
+void drawInfo(Mat& canvas, int in, int out);
+
+
+/**
+ * @brief Puts text to frame.
+ *
+ * @param canvas
+ * @param str
+ * @param Point
+ */
+void drawText(Mat& canvas, const string& str, const Point& point);
 
 #endif /* !MATUTIL_H */

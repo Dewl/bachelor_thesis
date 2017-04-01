@@ -29,5 +29,10 @@
 
 #define COLOR_GREEN Scalar(0, 255, 0)
 #define COLOR_RED Scalar(0, 0, 255)
+#define COLOR_BLUE Scalar(255, 0, 0)
+#define COLOR_CYAN Scalar(255, 255, 0)
+#define COLOR_YELLOW Scalar(0, 255, 255)
+#define COLOR_UP COLOR_GREEN
+#define COLOR_DOWN COLOR_RED
 
-#endif /* !CONSTANT_H */
+#endif /* !CONSkkTANT_H */
