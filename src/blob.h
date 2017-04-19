@@ -28,8 +28,10 @@
 #define BLOB_H
 
 #include <opencv/cv.h>
+#include <vector>
 
 using namespace cv;
+using namespace std;
 
 /**
  * @brief Blob model. Note about flag:
@@ -40,7 +42,7 @@ using namespace cv;
 class Blob
 {
 	private:
-		Point pos;
+		vector<Point> contour;
 		int flag;
 		bool activated;
 		int ttl;
@@ -60,14 +62,14 @@ class Blob
 		 *
 		 * @param point
 		 */
-		void set(const Point& point);
+		void init();
 
 		/**
 		 * @brief 
 		 *
 		 * @param point
 		 */
-		void update(const Point& point);
+		void update(const vector<Point>& contour);
 
 		/**
 		 * @brief Calculates Euclidean distance to another Blob.
@@ -76,7 +78,7 @@ class Blob
 		 *
 		 * @return Distance.
 		 */
-		double distance(const Point& b);
+		double distance(const vector<Point>& b);
 
 		/**
 		 * @brief Deactivate this blob.
@@ -160,6 +162,21 @@ class Blob
 		 * @return 
 		 */
 		bool isLower();
+
+
+		/**
+		 * @brief Get the contour of blob
+		 *
+		 * @return contour (vector<Point>)
+		 */
+		vector<Point> getContour();
+
+		/**
+		 * @brief Get the Y coordinate
+		 *
+		 * @return 
+		 */
+		int getY();
 };
 
 #endif

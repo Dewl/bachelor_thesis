@@ -96,3 +96,8 @@ void drawInfo(Mat& canvas, int upper, int lower)
 			COLOR_YELLOW, 1, CV_AA);
 }
 
+Point contourCenter(const vector<Point>& contour)
+{
+	Rect rect = boundingRect(contour);
+	return rectCenter(rect);
+}

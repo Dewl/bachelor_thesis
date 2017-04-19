@@ -27,13 +27,10 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
-//#include <opencv2/core/core.hpp>
-//#include <opencv2/imgproc/imgproc.hpp>
-//#include <opencv2/video/video.hpp>
-//#include <opencv2/video/tracking.hpp>
 
 #include "vibe.h"
 #include "matutil.h"
@@ -55,21 +52,21 @@ using namespace cv;
 #define RATIO 0.6
 
 /* Prototypes */
-void processVideo();
+void processVideo(char *src);
 
 /**
  * This is for testing purposes only. The input is fixed with input.mp4
  */
-int main()
+int main(int args, char **argv)
 {
-	processVideo();
+	processVideo(argv[1]);
 	destroyAllWindows();
 	return (EXIT_SUCCESS);
 }
 
-void processVideo()
+void processVideo(char *src)
 {
-	VideoCapture cap(INPUT);
+	VideoCapture cap(src);
 
 	if (!cap.isOpened()) {
 		error("ERROR: Unable to open video source.");
@@ -115,12 +112,14 @@ void processVideo()
 		findContours(foreground.clone(), contours, CV_RETR_EXTERNAL,
 				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-		vector<Point> centerPoints = extractor.extractPoints(contours);
+		debug(TAG_MAIN, "Size of contour", (int) contours.size());
+		vector<vector<Point> > filteredBlobs = extractor.extractPoints(contours);
 
-		tracker.receive(centerPoints);
+		tracker.receive(filteredBlobs);
 		tracker.display(origin);
 
 		imshow("Tracking", origin);
+		imshow("Blob", foreground);
 
 		if (waitKey(33) == 'q') {
 			break;

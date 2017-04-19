@@ -54,14 +54,14 @@ int Tracker::requestNewId()
 	return -1;
 }
 
-int Tracker::requestBestId(const Point& point)
+int Tracker::requestBestId(const vector<Point>& blob)
 {
 	double minDistance = DBL_MAX;
 	int bestId = -1;
 
 	for (int i = 0; i < TRACKER_CAP; ++i) {
 		if (blobPool[i].isActivated()) {
-			double distance = blobPool[i].distance(point);
+			double distance = blobPool[i].distance(blob);
 			if (distance < minDistance) {
 				minDistance = distance;
 				bestId = i;
@@ -71,11 +71,10 @@ int Tracker::requestBestId(const Point& point)
 	return bestId;
 }
 
-void Tracker::receive(const vector<Point>& points)
+void Tracker::receive(const vector<vector<Point> >& blobs)
 {
 	for (int i = 0; i < TRACKER_CAP; ++i) {
 		if (blobPool[i].isActivated()) {
-			//cout << "debug: blob #" << i << " ttl: " << blobPool[i].getTtl() << endl;
 			blobPool[i].increaseDeadTime();
 			int deadTime = 0;
 			if (blobPool[i].isUpper() || blobPool[i].isLower()) {
@@ -90,24 +89,24 @@ void Tracker::receive(const vector<Point>& points)
 		}
 	}
 
-	for (unsigned int i = 0; i < points.size(); ++i) {
-		Point curPoint = points[i];
-		int id = requestBestId(curPoint);
+	for (unsigned int i = 0; i < blobs.size(); ++i) {
+		vector<Point> curContour = blobs[i];
+		int id = requestBestId(curContour);
 
 		if (id < 0) {
 			id = requestNewId();
-			blobPool[id].set(curPoint);
-		} else {
-			blobPool[id].update(curPoint);
+			blobPool[id].init();
 		}
 
-		if (curPoint.y < y_upper) {
+		blobPool[id].update(curContour);
+
+		if (blobPool[i].getY() < y_upper) {
 			if (blobPool[id].getFlag()
 					== Blob::STATE_MIDDLE_PART) {
 				countUp += 1;
 			}
 			blobPool[id].setFlagToUpper();
-		} else if (curPoint.y >= y_upper && curPoint.y <= y_lower) {
+		} else if (blobPool[i].getY() >= y_upper && blobPool[i].getY() <= y_lower) {
 			blobPool[id].setFlagToMiddle();
 		} else {
 			if (blobPool[id].getFlag()
@@ -131,6 +130,7 @@ void Tracker::display(Mat& canvas)
 			convert << i;
 			drawPoint(canvas, center);
 			drawText(canvas, convert.str(), center);
+
 		}
 	}
 }

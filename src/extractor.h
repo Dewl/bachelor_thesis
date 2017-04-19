@@ -59,7 +59,7 @@ class Extractor
 		 *
 		 * @param c - contours.
 		 */
-		vector<Point> extractPoints(vector<vector<Point> >& c);
+		vector<vector<Point> > extractPoints(vector<vector<Point> >& c);
 };
 
 #endif /* !EXTRACTOR_H */

@@ -29,14 +29,19 @@
 
 #include <string>
 
+
 using namespace std;
+
+const string TAG_MAIN = "tag_main";
+
+const string TAG = TAG_MAIN;
 
 /**
  * @brief Prints the debug message to cerr
  *
  * @param msg - debug message
  */
-void debug(string msg);
+void debug(string tag, string msg);
 
 /**
  * @brief Prints the debug message with an integer value to cerr
@@ -44,7 +49,7 @@ void debug(string msg);
  * @param msg - debug message
  * @param val - value
  */
-void debug(string msg, int val);
+void debug(string tag, string msg, int val);
 
 
 /**
@@ -53,7 +58,7 @@ void debug(string msg, int val);
  * @param msg - debug message
  * @param val - value
  */
-void debug(string msg, string val);
+void debug(string tag, string msg, string val);
 
 
 /**
@@ -62,7 +67,7 @@ void debug(string msg, string val);
  * @param msg - debug message
  * @param val - value
  */
-void debug(string msg, double val);
+void debug(string tag, string msg, double val);
 
 
 /**

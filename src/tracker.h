@@ -10,7 +10,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License
+ * You should have d a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * 
@@ -56,7 +56,7 @@ class Tracker
 		 *
 		 * @return blob's id
 		 */
-		int requestBestId(const Point& point);
+		int requestBestId(const vector<Point>& point);
 
 		/**
 		 * @brief Returns an id, which can be new or reused one.
@@ -77,7 +77,7 @@ class Tracker
 		 *
 		 * @param point
 		 */
-		void receive(const vector<Point>& points);
+		void receive(const vector<vector<Point> >& blobs);
 
 		/**
 		 * @brief Return the number of blobs from lower to upper bar.

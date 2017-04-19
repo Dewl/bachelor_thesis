@@ -4,11 +4,13 @@ OPT = -Wall -O2
 
 all: vibe main devutil matutil tracker blob extractor
 	mkdir -p bin/
-	g++ $(OPT) $(INCLUDE_OPENCV) obj/*.o -o bin/main $(LIBS_OPENCV)
+	$(make link)
+
 vibe:
 	mkdir -p obj/
 	gcc $(OPT) -c src/vibe.c
 	mv *.o obj/
+
 main:
 	mkdir -p obj/
 	g++ $(OPT) -c src/main.cpp
@@ -40,6 +42,9 @@ extractor:
 clean:
 	rm -f obj/*.o
 	rm -f bin/main
+
+link:
+	g++ $(OPT) $(INCLUDE_OPENCV) obj/*.o -o bin/main $(LIBS_OPENCV)
 
 /*default: */
 	/*gcc -std=c99 -O3 -Wall -Werror -pedantic -Wno-unused-function -Wno-unused-parameter -Wno-deprecated -Wno-deprecated-declarations -Wno-sign-compare -Wno-unused-but-set-parameter -c vibe-background-sequential.c*/

@@ -25,31 +25,32 @@
  */
 
 #include "blob.h"
+#include "matutil.h"
 
 Blob::Blob()
 {
-	set(Point(0, 0));
+	init();
 	activated = false;
 }
 
-void Blob::set(const Point& point)
+void Blob::init()
 {
-	update(point);
 	flag = STATE_NULL;
 	activated = true;
+}
+
+void Blob::update(const vector<Point>& _contour)
+{
+	contour = _contour;
 	ttl = 0;
 }
 
-void Blob::update(const Point& point)
+double Blob::distance(const vector<Point>& b)
 {
-	pos.x = point.x;
-	pos.y = point.y;
-	ttl = 0;
-}
+	Point p1 = contourCenter(contour);
+	Point p2 = contourCenter(b);
 
-double Blob::distance(const Point& b)
-{
-	return norm(Mat(pos) - Mat(b));
+	return norm(Mat(p1) - Mat(p2));
 }
 
 void Blob::increaseDeadTime()
@@ -64,7 +65,7 @@ bool Blob::isActivated()
 
 Point Blob::getCenter()
 {
-	return pos;
+	return contourCenter(contour);
 }
 
 int Blob::getFlag()
@@ -110,4 +111,15 @@ bool Blob::isMiddle()
 bool Blob::isLower()
 {
 	return flag == STATE_LOWER_PART;
+}
+
+vector<Point> Blob::getContour()
+{
+	return contour;
+}
+
+int Blob::getY()
+{
+	//return getCenter().y;
+	return 0;
 }

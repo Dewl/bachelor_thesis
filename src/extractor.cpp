@@ -36,9 +36,9 @@ void Extractor::setRatio(double r)
 	ratio = r;
 }
 
-vector<Point> Extractor::extractPoints(vector<vector<Point> >& c)
+vector<vector<Point> > Extractor::extractPoints(vector<vector<Point> >& c)
 {
-	vector<Point> centerPoints;
+	vector<vector<Point> > blobs;
 	for (size_t i = 0; i < c.size(); i++) {
 		Rect bBox = boundingRect(c[i]);
 		float r = (float) bBox.width / (float) bBox.height;
@@ -47,9 +47,10 @@ vector<Point> Extractor::extractPoints(vector<vector<Point> >& c)
 			r = 1.0f / r;
 
 		if (r > ratio && bBox.area() > minArea) {
-			centerPoints.push_back(rectCenter(bBox));
+			blobs.push_back(c[i]);
 		}
+
 	}
 
-	return centerPoints;
+	return blobs;
 }

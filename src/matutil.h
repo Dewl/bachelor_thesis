@@ -79,6 +79,15 @@ Point rectCenter(const Rect& rect);
 
 
 /**
+ * @brief Returns the center point of a contour.
+ *
+ * @param contour
+ *
+ * @return Ponit - center
+ */
+Point contourCenter(const vector<Point>& contour);
+
+/**
  * @brief Draws the upper and lower line to determine if a person is going
  * in or going out.
  *

@@ -31,24 +31,29 @@
 
 using namespace std;
 
-void debug(string msg)
+
+void debug(string tag, string msg)
 {
-	cerr << msg << endl;
+	if (tag == TAG)
+		cerr << msg << endl;
 }
 
-void debug(string msg, int val)
+void debug(string tag, string msg, int val)
 {
-	cerr << msg << ": " << val << endl;
+	if (tag == TAG)
+		cerr << msg << ": " << val << endl;
 }
 
-void debug(string msg, double val)
+void debug(string tag, string msg, double val)
 {
-	cerr << msg << ": " << val << endl;
+	if (tag == TAG)
+		cerr << msg << ": " << val << endl;
 }
 
-void debug(string msg, string val)
+void debug(string tag, string msg, string val)
 {
-	cerr << msg << ": " << val << endl;
+	if (tag == TAG)
+		cerr << msg << ": " << val << endl;
 }
 
 void error(string msg)
