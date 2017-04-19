@@ -29,6 +29,7 @@
 
 #include "tracker.h"
 #include "matutil.h"
+#include "devutil.h"
 
 using namespace std;
 
@@ -123,14 +124,19 @@ void Tracker::display(Mat& canvas)
 	drawBoundary(canvas, y_upper, y_lower);
 	drawInfo(canvas, countUp, countDown);
 
+	int counter = 0;
+
 	for (int i = 0; i < TRACKER_CAP; ++i) {
 		if (blobPool[i].isActivated()) {
+			counter += 1;
 			Point center = blobPool[i].getCenter();
 			ostringstream convert;
 			convert << i;
 			drawPoint(canvas, center);
 			drawText(canvas, convert.str(), center);
-
+			drawBoundingRect(canvas, blobPool[i]);
 		}
 	}
+
+	debug("TAG_TRACKER", "Activated", counter);
 }

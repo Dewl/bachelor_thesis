@@ -113,7 +113,7 @@ bool Blob::isLower()
 	return flag == STATE_LOWER_PART;
 }
 
-vector<Point> Blob::getContour()
+vector<Point> Blob::getContour() const
 {
 	return contour;
 }

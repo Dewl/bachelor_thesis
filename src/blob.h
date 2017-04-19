@@ -169,7 +169,7 @@ class Blob
 		 *
 		 * @return contour (vector<Point>)
 		 */
-		vector<Point> getContour();
+		vector<Point> getContour() const;
 
 		/**
 		 * @brief Get the Y coordinate

@@ -32,9 +32,7 @@
 
 using namespace std;
 
-const string TAG_MAIN = "tag_main";
-
-const string TAG = TAG_MAIN;
+const string TAG = "TAG_TRACKER";
 
 /**
  * @brief Prints the debug message to cerr

@@ -112,7 +112,6 @@ void processVideo(char *src)
 		findContours(foreground.clone(), contours, CV_RETR_EXTERNAL,
 				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-		debug(TAG_MAIN, "Size of contour", (int) contours.size());
 		vector<vector<Point> > filteredBlobs = extractor.extractPoints(contours);
 
 		tracker.receive(filteredBlobs);

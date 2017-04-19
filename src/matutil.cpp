@@ -35,8 +35,8 @@ using namespace std;
 void refineBlob(Mat& binImage)
 {
 	medianBlur(binImage, binImage, 5);
-	erode(binImage, binImage, Mat(), Point(-1, -1), 2);
-	dilate(binImage, binImage, Mat(), Point(-1, -1), 2);
+	erode(binImage, binImage, Mat(), Point(-1, -1), 3);
+	dilate(binImage, binImage, Mat(), Point(-1, -1), 3);
 }
 
 Point rectCenter(const Rect& rect)
@@ -45,12 +45,9 @@ Point rectCenter(const Rect& rect)
 	return ret;
 }
 
-void drawRect(Mat& canvas, const Rect& rect, int id)
+void drawRect(Mat& canvas, const Rect& rect)
 {
-	ostringstream convert;
-	convert << id;
 	rectangle(canvas, rect.tl(), rect.br(), COLOR_GREEN, 2);
-	drawTextRect(canvas, convert.str(), rect);
 }
 
 void drawPoint(Mat& canvas, const Point& point)
@@ -100,4 +97,10 @@ Point contourCenter(const vector<Point>& contour)
 {
 	Rect rect = boundingRect(contour);
 	return rectCenter(rect);
+}
+
+void drawBoundingRect(Mat& canvas, const Blob& blob)
+{
+	Rect bBox = boundingRect(blob.getContour());
+	drawRect(canvas, bBox);
 }

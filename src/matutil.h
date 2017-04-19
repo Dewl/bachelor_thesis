@@ -28,8 +28,9 @@
 #define MATUTIL_H
 
 #include <vector>
-
 #include <opencv/cv.h>
+
+#include "blob.h"
 
 using namespace cv;
 using namespace std;
@@ -48,7 +49,7 @@ void refineBlob(Mat& binImage);
  * @param canvas
  * @param rect
  */
-void drawRect(Mat& canvas, const Rect& rect, int id);
+void drawRect(Mat& canvas, const Rect& rect);
 
 
 /**
@@ -116,4 +117,11 @@ void drawInfo(Mat& canvas, int in, int out);
  */
 void drawText(Mat& canvas, const string& str, const Point& point);
 
+/**
+ * @brief Draw a green bounding rectangle of a blob 
+ *
+ * @param canvans
+ * @param contour
+ */
+void drawBoundingRect(Mat& canvas, const Blob& blob);
 #endif /* !MATUTIL_H */
