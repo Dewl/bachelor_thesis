@@ -80,12 +80,16 @@ To do:
 	Background Substraction		[x]
 	Blobs Extracting		[x]
 	Blob Labeling			[_]
+		Centroid		[_]
+
+	Experiments:
 		Single person			[_]
 		Multiple separate people	[_]
 		Group of people			[_]
 		Merging people			[_]
 		Separating peole		[_]
 		Mixing case			[_]
+
 	Blob Properties Debug			[x]
 	Blob Properties Log/Stat tool		[_]
 	Human Properties Callibration/Learning	[_]
@@ -98,7 +102,8 @@ Challenges
 ----------
 
 	Low-angle shadows			[_]
-		- Can we use mean color to filter out shadows?
+		- Mean/Median color to filter out shadows [?]
+		- Stronger refinery		[_]
 	How comes the Extractor's criteria	[_]
 		Learning?
 		Callibrating?
