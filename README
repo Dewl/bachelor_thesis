@@ -1,0 +1,23 @@
+Bachelor's Thesis: Passenger Flow Analysis using Computer Vision
+================================================================
+
+To-do:
+------
+
+	Code Review		[_]
+	Design the architecture	[_]
+
+	Background Substraction		[x]
+	Blobs Extracting		[_]
+	Blob Labeling			[_]
+		Single person			[_]
+		Multiple separate people	[_]
+		Group of people			[_]
+		Merging people			[_]
+		Separating peole		[_]
+		Mixing case			[_]
+	Human Properties Callibration	[_]
+		Callibration of Learning?	[_]
+	Implementation
+		Camera?			[_]
+		Accuracy?		[_]
