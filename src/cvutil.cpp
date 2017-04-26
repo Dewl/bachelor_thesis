@@ -71,8 +71,8 @@ void drawText(Mat& canvas, const string& str, const Point& point)
 
 Point contourCentroid(const vector<Point>& contour)
 {
-	Rect rect = boundingRect(contour);
-	return rectCentroid(rect);
+	Moments mu = moments(contour, false);
+	return Point2f(mu.m10/mu.m00 , mu.m01/mu.m00);
 }
 
 double rectRatio(const Rect& rect)
