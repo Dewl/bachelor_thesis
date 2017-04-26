@@ -24,11 +24,10 @@
  * @date 2017-03-16
  */
 
-#ifndef DEVUTIL_H
-#define DEVUTIL_H
+#ifndef DEBUG_H
+#define DEBUG_H
 
 #include <string>
-
 
 using namespace std;
 
@@ -75,5 +74,6 @@ void debug(string tag, string msg, double val);
  */
 void error(string msg);
 
-#endif /* !DEVUTIL_H */
+#endif /* !DEBUG_H
+*/
 

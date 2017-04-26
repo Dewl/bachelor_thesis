@@ -1,6 +1,22 @@
 Bachelor's Thesis: Passenger Flow Analysis using Computer Vision
 ================================================================
 
+How To Build
+-------------
+
+	cd bachelor_thesis
+	make
+	make link
+
+Executable binary is located in bin/, object files are located in obj/
+
+
+Project Structure:
+	main:	Entry point for the core application
+	cvutil:	OpenCV library wrapper
+	debug:	Plays the role like Android Log.d()
+	vibe:	Foreground segmenter
+
 To-do:
 ------
 
@@ -21,3 +37,8 @@ To-do:
 	Implementation
 		Camera?			[_]
 		Accuracy?		[_]
+
+Challenges
+----------
+
+	Low-angle shadows		[_]

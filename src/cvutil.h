@@ -30,21 +30,19 @@
 #include <vector>
 #include <opencv/cv.h>
 
-#include "blob.h"
-
 using namespace cv;
 using namespace std;
 
 /**
- * @brief Significantly reduces the noise and correctly splits the blobs
+ * @brief Reduces the noise and correctly splits the blobs
  *
  * @param binImage
  */
-void refineBlob(Mat& binImage);
+void refineBinaryImage(Mat& binImage);
 
 
 /**
- * @brief Draws a rectangle
+ * @brief Draws a rectangle given a Rect
  *
  * @param canvas
  * @param rect
@@ -53,7 +51,7 @@ void drawRect(Mat& canvas, const Rect& rect);
 
 
 /**
- * @brief Draws a point
+ * @brief Draws a point given a Point
  *
  * @param point
  */
@@ -61,7 +59,7 @@ void drawPoint(Mat& canvas, const Point& point);
 
 
 /**
- * @brief Draw blob info
+ * @brief Writes a string in the middle of a rect
  *
  * @param canvas
  * @param str
@@ -70,13 +68,13 @@ void drawPoint(Mat& canvas, const Point& point);
 void drawTextRect(Mat& canvas, const string& str, const Rect& rect);
 
 /**
- * @brief  Returns the center point of a rectangle
+ * @brief  Returns rectangle's centroid
  *
  * @param rect
  *
  * @return Point
  */
-Point rectCenter(const Rect& rect);
+Point rectCentroid(const Rect& rect);
 
 
 /**
@@ -86,27 +84,7 @@ Point rectCenter(const Rect& rect);
  *
  * @return Ponit - center
  */
-Point contourCenter(const vector<Point>& contour);
-
-/**
- * @brief Draws the upper and lower line to determine if a person is going
- * in or going out.
- *
- * @param y_up
- * @param y_down
- * @param canvas
- */
-void drawBoundary(Mat& canvas, int y_up, int y_down);
-
-/**
- * @brief Displays informations regarding to results.
- *
- * @param canvas
- * @param in - number of people coming in.
- * @param out - number of people coming out.
- */
-void drawInfo(Mat& canvas, int in, int out);
-
+Point contourCentroid(const vector<Point>& contour);
 
 /**
  * @brief Puts text to frame.
@@ -117,11 +95,4 @@ void drawInfo(Mat& canvas, int in, int out);
  */
 void drawText(Mat& canvas, const string& str, const Point& point);
 
-/**
- * @brief Draw a green bounding rectangle of a blob 
- *
- * @param canvans
- * @param contour
- */
-void drawBoundingRect(Mat& canvas, const Blob& blob);
 #endif /* !MATUTIL_H */

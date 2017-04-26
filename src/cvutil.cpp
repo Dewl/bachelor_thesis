@@ -27,19 +27,19 @@
 #include <iostream>
 #include <string>
 
-#include "matutil.h"
+#include "cvutil.h"
 #include "const.h"
 
 using namespace std;
 
-void refineBlob(Mat& binImage)
+void refineBinaryImage(Mat& binImage)
 {
 	medianBlur(binImage, binImage, 5);
 	erode(binImage, binImage, Mat(), Point(-1, -1), 3);
 	dilate(binImage, binImage, Mat(), Point(-1, -1), 3);
 }
 
-Point rectCenter(const Rect& rect)
+Point rectCentroid(const Rect& rect)
 {
 	Point ret = Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
 	return ret;
@@ -69,38 +69,9 @@ void drawText(Mat& canvas, const string& str, const Point& point)
 			COLOR_YELLOW, 1, CV_AA);
 }
 
-void drawBoundary(Mat& canvas, int y_up, int y_down)
-{
-	int x1 = 0;
-	int x2 = canvas.cols;
-
-	Point up1 = Point(x1, y_up);
-	Point up2 = Point(x2, y_up);
-
-	Point down1 = Point(x1, y_down);
-	Point down2 = Point(x2, y_down);
-
-	line(canvas, up1, up2, COLOR_GREEN);
-	line(canvas, down1, down2, COLOR_GREEN);
-}
-
-void drawInfo(Mat& canvas, int upper, int lower)
-{
-	ostringstream convert;
-	convert << "UPPER= " << upper << ", LOWER= " << lower;
-	putText(canvas, convert.str(), Point(20, 20),
-			FONT_HERSHEY_COMPLEX_SMALL, 0.8,
-			COLOR_YELLOW, 1, CV_AA);
-}
-
-Point contourCenter(const vector<Point>& contour)
+Point contourCentroid(const vector<Point>& contour)
 {
 	Rect rect = boundingRect(contour);
-	return rectCenter(rect);
+	return rectCentroid(rect);
 }
 
-void drawBoundingRect(Mat& canvas, const Blob& blob)
-{
-	Rect bBox = boundingRect(blob.getContour());
-	drawRect(canvas, bBox);
-}

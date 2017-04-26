@@ -33,11 +33,9 @@
 #include <opencv/highgui.h>
 
 #include "vibe.h"
-#include "matutil.h"
-#include "devutil.h"
+#include "cvutil.h"
+#include "debug.h"
 #include "const.h"
-#include "tracker.h"
-#include "extractor.h"
 
 using namespace std;
 using namespace cv;
@@ -78,11 +76,6 @@ void processVideo(char *src)
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
 
-	Tracker tracker(Y_UP, Y_DOWN, TTL);
-	Extractor extractor;
-	extractor.setMinArea(BLOB_SIZE);
-	extractor.setRatio(RATIO);
-
 	while (true) {
 		if (!cap.read(origin)) {
 			break;
@@ -106,19 +99,14 @@ void processVideo(char *src)
 				origin.data,
 				foreground.data);
 
-		refineBlob(foreground);
+		refineBinaryImage(foreground);
 
-		vector<vector<Point> > contours;
-		findContours(foreground.clone(), contours, CV_RETR_EXTERNAL,
-				CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+		//vector<vector<Point> > contours;
+		//findContours(foreground.clone(), contours, CV_RETR_EXTERNAL,
+				//CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-		vector<vector<Point> > filteredBlobs = extractor.extractPoints(contours);
-
-		tracker.receive(filteredBlobs);
-		tracker.display(origin);
-
-		imshow("Tracking", origin);
-		imshow("Blob", foreground);
+		imshow("Origin", origin);
+		imshow("Foreground", foreground);
 
 		if (waitKey(33) == 'q') {
 			break;

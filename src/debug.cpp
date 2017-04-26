@@ -1,5 +1,5 @@
 /* Copyright (C) 
- * 2017 - Khoi Hoang
+ * 2017 - Khoi Hoang, Kiet Chuong
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -17,40 +17,47 @@
  */
 
 /**
- * @file extractor.h
- * @brief The implementation for extractor.h
+ * @file devutil.cpp
+ * @brief Implementation for devutil.h
  * @author Khoi Hoang
  * @version 1.0
- * @date 2017-04-01
+ * @date 2017-03-16
  */
-#include "extractor.h"
-#include "matutil.h"
 
-void Extractor::setMinArea(int a)
+#include <iostream>
+#include <cstdlib>
+
+#include "debug.h"
+
+using namespace std;
+
+
+void debug(string tag, string msg)
 {
-	minArea = a;
+	if (tag == TAG)
+		cerr << msg << endl;
 }
 
-void Extractor::setRatio(double r)
+void debug(string tag, string msg, int val)
 {
-	ratio = r;
+	if (tag == TAG)
+		cerr << msg << ": " << val << endl;
 }
 
-vector<vector<Point> > Extractor::extractPoints(vector<vector<Point> >& c)
+void debug(string tag, string msg, double val)
 {
-	vector<vector<Point> > blobs;
-	for (size_t i = 0; i < c.size(); i++) {
-		Rect bBox = boundingRect(c[i]);
-		float r = (float) bBox.width / (float) bBox.height;
+	if (tag == TAG)
+		cerr << msg << ": " << val << endl;
+}
 
-		if (r > 1.0f)
-			r = 1.0f / r;
+void debug(string tag, string msg, string val)
+{
+	if (tag == TAG)
+		cerr << msg << ": " << val << endl;
+}
 
-		if (r > ratio && bBox.area() > minArea) {
-			blobs.push_back(c[i]);
-		}
-
-	}
-
-	return blobs;
+void error(string msg)
+{
+	cerr << msg << endl;
+	exit(EXIT_FAILURE);
 }
