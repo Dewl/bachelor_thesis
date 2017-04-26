@@ -17,8 +17,9 @@ Project Structure
 	debug:	Plays the role like Android Log.d()
 	vibe:	Foreground segmenter
 
-Architecture:
-	----------------
+General Architecture
+--------------------
+		----------------
 		|Frame Sequence|
 		----------------
 			|
@@ -40,19 +41,25 @@ Architecture:
 		-----------------
 		|Contours	|
 		-----------------
-			|
-			|
+			|             -----------
+			|<------------|Extractor|
+			|             -----------
 			v
 		---------------------
 		|Blobs of Interested|
 		---------------------
-
+			|
+			|
+			v
+		-----------------
+		|Tracker	|
+		-----------------
 
 To-do:
 ------
 
 	Code Review		[x]
-	Design the architecture	[_]
+	General  Architecture	[x]
 
 	Background Substraction		[x]
 	Blobs Extracting		[_]
