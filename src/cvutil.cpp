@@ -57,7 +57,7 @@ void drawPoint(Mat& canvas, const Point& point)
 
 void drawTextRect(Mat& canvas, const string& str, const Rect& rect)
 {
-	putText(canvas, str, Point(0, 0),
+	putText(canvas, str, Point(rect.x, rect.y),
 			FONT_HERSHEY_COMPLEX_SMALL, 0.8,
 			COLOR_RED, 1, CV_AA);
 }
@@ -75,3 +75,13 @@ Point contourCentroid(const vector<Point>& contour)
 	return rectCentroid(rect);
 }
 
+double rectRatio(const Rect& rect)
+{
+	double ret = (double) rect.height / rect.width;
+	return ret <= 1.0 ? ret : (double) 1.0 / ret;
+}
+
+double contourBoundingRatio(const contour& _contour)
+{
+	return rectRatio(boundingRect(_contour));
+}

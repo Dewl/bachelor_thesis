@@ -30,6 +30,8 @@
 #include <vector>
 #include <opencv/cv.h>
 
+#include "contour.h"
+
 using namespace cv;
 using namespace std;
 
@@ -94,5 +96,9 @@ Point contourCentroid(const vector<Point>& contour);
  * @param Point
  */
 void drawText(Mat& canvas, const string& str, const Point& point);
+
+double rectRatio(const Rect& rect);
+
+double contourBoundingRatio(const contour& _contour);
 
 #endif /* !MATUTIL_H */

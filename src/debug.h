@@ -29,9 +29,11 @@
 
 #include <string>
 
+#include "contour.h"
+
 using namespace std;
 
-const string TAG = "TAG_TRACKER";
+const string TAG = "TAG_MAIN";
 
 /**
  * @brief Prints the debug message to cerr
@@ -73,6 +75,15 @@ void debug(string tag, string msg, double val);
  * @param msg - fatal error message
  */
 void error(string msg);
+
+
+/**
+ * @brief Display blob's information on canvas
+ *
+ * @param canvas
+ * @param contours
+ */
+void contourDebug(Mat& canvas, const vector<contour>& contours);
 
 #endif /* !DEBUG_H
 */

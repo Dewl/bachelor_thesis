@@ -34,8 +34,10 @@
 
 #include "vibe.h"
 #include "cvutil.h"
+#include "extractor.h"
 #include "debug.h"
 #include "const.h"
+#include "contour.h"
 
 using namespace std;
 using namespace cv;
@@ -75,6 +77,8 @@ void processVideo(char *src)
 
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
+		
+	vector<contour> contours;
 
 	while (true) {
 		if (!cap.read(origin)) {
@@ -101,9 +105,9 @@ void processVideo(char *src)
 
 		refineBinaryImage(foreground);
 
-		//vector<vector<Point> > contours;
-		//findContours(foreground.clone(), contours, CV_RETR_EXTERNAL,
-				//CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+		contours = extractBOI(foreground);
+
+		contourDebug(origin, contours);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);

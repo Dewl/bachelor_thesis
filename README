@@ -55,14 +55,30 @@ General Architecture
 		|Tracker	|
 		-----------------
 
-To-do:
+Extractor
+---------
+
+1. Overview
+
+	Input: a refined binary image - cv::Mat
+	Output: a vector of  BOI (Blobs of Interest)
+
+2. How:
+	Pick blobs based on criteria:
+		+ Minimum Area					[x]
+		+ Aspect Ratio (h / w of bounding box)		[x]
+		+ Extent (object area / bounding box area)	[?]
+
+	More on: http://docs.opencv.org/3.2.0/d1/d32/tutorial_py_contour_properties.html
+
+To do:
 ------
 
 	Code Review		[x]
 	General  Architecture	[x]
 
 	Background Substraction		[x]
-	Blobs Extracting		[_]
+	Blobs Extracting		[x]
 	Blob Labeling			[_]
 		Single person			[_]
 		Multiple separate people	[_]
@@ -70,7 +86,9 @@ To-do:
 		Merging people			[_]
 		Separating peole		[_]
 		Mixing case			[_]
-	Human Properties Callibration	[_]
+	Blob Properties Debug			[x]
+	Blob Properties Log/Stat tool		[_]
+	Human Properties Callibration/Learning	[_]
 		Callibration of Learning?	[_]
 	Implementation
 		Camera?			[_]
@@ -79,4 +97,8 @@ To-do:
 Challenges
 ----------
 
-	Low-angle shadows		[_]
+	Low-angle shadows			[_]
+		- Can we use mean color to filter out shadows?
+	How comes the Extractor's criteria	[_]
+		Learning?
+		Callibrating?

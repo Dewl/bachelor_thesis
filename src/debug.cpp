@@ -26,8 +26,10 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 #include "debug.h"
+#include "cvutil.h"
 
 using namespace std;
 
@@ -60,4 +62,23 @@ void error(string msg)
 {
 	cerr << msg << endl;
 	exit(EXIT_FAILURE);
+}
+
+void contourDebug(Mat& canvas, const vector<contour>& contours)
+{
+	for (unsigned int i = 0; i < contours.size(); ++i) {
+		contour cur = contours[i];
+
+		Rect bBox = boundingRect(cur);
+		drawRect(canvas, bBox);
+
+		Point centroid = rectCentroid(bBox);
+		drawPoint(canvas, centroid);
+
+		double area = contourArea(cur, false);
+		double ratio = rectRatio(bBox);
+		string info = "A=" + to_string(area) + ", R="
+			+ to_string(ratio);
+		drawTextRect(canvas, info, bBox);
+	}
 }
