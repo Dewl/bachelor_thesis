@@ -10,12 +10,43 @@ How To Build
 
 Executable binary is located in bin/, object files are located in obj/
 
-
-Project Structure:
+Project Structure
+-----------------
 	main:	Entry point for the core application
 	cvutil:	OpenCV library wrapper
 	debug:	Plays the role like Android Log.d()
 	vibe:	Foreground segmenter
+
+Architecture:
+	----------------
+		|Frame Sequence|
+		----------------
+			|
+			v
+		---------------
+		|Current Frame|
+		---------------
+			|
+			v	 -------------------------
+			-------->|Update Background Model|
+			|	 -------------------------
+			|		|
+			v		|
+		---------------------	|
+		|Foreground (binary)|<---
+		---------------------
+			|
+			v
+		-----------------
+		|Contours	|
+		-----------------
+			|
+			|
+			v
+		---------------------
+		|Blobs of Interested|
+		---------------------
+
 
 To-do:
 ------
