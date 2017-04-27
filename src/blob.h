@@ -17,7 +17,7 @@ class Blob {
 
 		Blob(const Contour& _contour);
 		void update(const Contour& _contour);
-		double distance(const Blob& _blob);
+		double distance(Blob& _blob);
 };
 
 #endif /* !BLOB_H */

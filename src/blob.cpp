@@ -14,7 +14,7 @@ void Blob::update(const Contour& _contour)
 	bBox = boundingRect(_contour);
 }
 
-double Blob::distance(const Blob& _blob)
+double Blob::distance(Blob& _blob)
 {
 	return norm(path.back() - _blob.path.back());
 }
