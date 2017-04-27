@@ -69,9 +69,9 @@ void drawText(Mat& canvas, const string& str, const Point& point)
 			COLOR_YELLOW, 1, CV_AA);
 }
 
-Point contourCentroid(const vector<Point>& contour)
+Point contourCentroid(const contour& _contour)
 {
-	Moments mu = moments(contour, false);
+	Moments mu = moments(_contour, false);
 	return Point2f(mu.m10/mu.m00 , mu.m01/mu.m00);
 }
 

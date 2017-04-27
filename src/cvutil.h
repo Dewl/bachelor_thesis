@@ -86,7 +86,7 @@ Point rectCentroid(const Rect& rect);
  *
  * @return Ponit - center
  */
-Point contourCentroid(const vector<Point>& contour);
+Point contourCentroid(const contour& _contour);
 
 /**
  * @brief Puts text to frame.
