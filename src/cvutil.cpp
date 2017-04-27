@@ -69,7 +69,7 @@ void drawText(Mat& canvas, const string& str, const Point& point)
 			COLOR_YELLOW, 1, CV_AA);
 }
 
-Point contourCentroid(const contour& _contour)
+Point contourCentroid(const Contour& _contour)
 {
 	Moments mu = moments(_contour, false);
 	return Point2f(mu.m10/mu.m00 , mu.m01/mu.m00);
@@ -81,7 +81,7 @@ double rectRatio(const Rect& rect)
 	return ret <= 1.0 ? ret : (double) 1.0 / ret;
 }
 
-double contourBoundingRatio(const contour& _contour)
+double contourBoundingRatio(const Contour& _contour)
 {
 	return rectRatio(boundingRect(_contour));
 }

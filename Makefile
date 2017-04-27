@@ -30,6 +30,16 @@ extractor:
 	g++ $(OPT) $(OPT_CPP) -c src/extractor.cpp
 	mv *.o obj/
 
+blob:
+	mkdir -p obj/
+	g++ $(OPT) $(OPT_CPP) -c src/blob.cpp
+	mv *.o obj/
+
+tracker:
+	mkdir -p obj/
+	g++ $(OPT) $(OPT_CPP) -c src/tracker.cpp
+	mv *.o obj/
+
 clean:
 	rm -f obj/*.o
 	rm -f bin/main

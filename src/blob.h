@@ -9,14 +9,15 @@
 using namespace std;
 using namespace cv;
 
-class blob {
+class Blob {
 	public:
 		list<Point> path;
 		int area;
 		Rect bBox;
 
-		blob(const contour& _contour);
-		void update(const contour& _contour);
-}
+		Blob(const Contour& _contour);
+		void update(const Contour& _contour);
+		double distance(const Blob& _blob);
+};
 
 #endif /* !BLOB_H */

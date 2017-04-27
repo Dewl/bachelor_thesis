@@ -4,10 +4,11 @@
 #include <opencv/cv.h>
 
 #include "contour.h"
+#include "blob.h"
 
 using namespace cv;
 
 
-vector<contour> extractBOI(const Mat& frame);
+vector<Contour> extractBOI(const Mat& frame);
 
 #endif /* !EXTRACTOR_H */

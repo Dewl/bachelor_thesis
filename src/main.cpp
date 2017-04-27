@@ -78,7 +78,7 @@ void processVideo(char *src)
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
 		
-	vector<contour> contours;
+	vector<Contour> contours;
 
 	while (true) {
 		if (!cap.read(origin)) {

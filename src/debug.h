@@ -83,7 +83,7 @@ void error(string msg);
  * @param canvas
  * @param contours
  */
-void contourDebug(Mat& canvas, const vector<contour>& contours);
+void contourDebug(Mat& canvas, const vector<Contour>& contours);
 
 #endif /* !DEBUG_H
 */

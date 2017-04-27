@@ -86,7 +86,7 @@ Point rectCentroid(const Rect& rect);
  *
  * @return Ponit - center
  */
-Point contourCentroid(const contour& _contour);
+Point contourCentroid(const Contour& _contour);
 
 /**
  * @brief Puts text to frame.
@@ -99,6 +99,6 @@ void drawText(Mat& canvas, const string& str, const Point& point);
 
 double rectRatio(const Rect& rect);
 
-double contourBoundingRatio(const contour& _contour);
+double contourBoundingRatio(const Contour& _contour);
 
 #endif /* !MATUTIL_H */

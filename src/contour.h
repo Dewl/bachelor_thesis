@@ -7,6 +7,6 @@
 using namespace std;
 using namespace cv;
 
-typedef vector<Point> contour;
+typedef vector<Point> Contour;
 
 #endif /* !CONTOUR_H */

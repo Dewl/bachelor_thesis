@@ -64,10 +64,10 @@ void error(string msg)
 	exit(EXIT_FAILURE);
 }
 
-void contourDebug(Mat& canvas, const vector<contour>& contours)
+void contourDebug(Mat& canvas, const vector<Contour>& contours)
 {
 	for (unsigned int i = 0; i < contours.size(); ++i) {
-		contour cur = contours[i];
+		Contour cur = contours[i];
 
 		Rect bBox = boundingRect(cur);
 		drawRect(canvas, bBox);

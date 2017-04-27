@@ -1,23 +1,23 @@
 #include "extractor.h"
 #include "cvutil.h"
 
-static vector<contour> filter(const vector<contour>& contours);
+static vector<Contour> filter(const vector<Contour>& contours);
 
-vector<contour> extractBOI(const Mat& frame)
+vector<Contour> extractBOI(const Mat& frame)
 {
-	vector<contour> contours;
+	vector<Contour> contours;
 	
 	findContours(frame.clone(), contours, CV_RETR_EXTERNAL,
 			CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
-	vector<contour> ret = filter(contours);
+	vector<Contour> ret = filter(contours);
 
 	return ret;
 }
 
-static vector<contour> filter(const vector<contour>& contours)
+static vector<Contour> filter(const vector<Contour>& contours)
 {
-	vector<contour> ret;
+	vector<Contour> ret;
 
 	for (unsigned int i = 0; i < contours.size(); ++i) {
 		if (contourArea(contours[i]) > 500 &&
