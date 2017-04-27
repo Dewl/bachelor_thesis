@@ -31,9 +31,6 @@
 #include "debug.h"
 #include "cvutil.h"
 
-using namespace std;
-
-
 void debug(string tag, string msg)
 {
 	if (tag == TAG)
@@ -80,5 +77,23 @@ void contourDebug(Mat& canvas, const vector<Contour>& contours)
 		string info = "A=" + to_string(area) + ", R="
 			+ to_string(ratio);
 		drawTextRect(canvas, info, bBox);
+	}
+}
+
+void blobDebug(Mat& canvas, const list<Blob>& blobs)
+{
+	list<Blob>::const_iterator it = blobs.cbegin();
+	while (it != blobs.cend()) {
+		list<Point>::const_iterator pathIt = it->path.cbegin();
+
+		while (pathIt != it->path.cend()) {
+			drawPoint(canvas, *pathIt);
+			++pathIt;
+		}
+		
+		string info = "a=" + to_string(it->area);
+		drawTextRect(canvas, info, it->bBox);
+		drawRect(canvas, it->bBox);
+		++it;
 	}
 }

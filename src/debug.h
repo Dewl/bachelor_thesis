@@ -28,8 +28,10 @@
 #define DEBUG_H
 
 #include <string>
+#include <list>
 
 #include "contour.h"
+#include "blob.h"
 
 using namespace std;
 
@@ -84,6 +86,8 @@ void error(string msg);
  * @param contours
  */
 void contourDebug(Mat& canvas, const vector<Contour>& contours);
+
+void blobDebug(Mat& canvas, const list<Blob>& blobs);
 
 #endif /* !DEBUG_H
 */

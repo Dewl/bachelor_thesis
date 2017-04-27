@@ -28,6 +28,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <list>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -78,7 +79,8 @@ void processVideo(char *src)
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
 		
-	vector<Contour> contours;
+	//vector<Contour> contours;
+	list<Blob> blobs;
 
 	while (true) {
 		if (!cap.read(origin)) {
@@ -105,9 +107,8 @@ void processVideo(char *src)
 
 		refineBinaryImage(foreground);
 
-		contours = extractBOI(foreground);
-
-		contourDebug(origin, contours);
+		blobs = extractBOI(foreground);
+		blobDebug(origin, blobs);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);

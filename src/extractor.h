@@ -2,13 +2,14 @@
 #define EXTRACTOR_H
 
 #include <opencv/cv.h>
+#include <list>
 
 #include "contour.h"
 #include "blob.h"
 
 using namespace cv;
+using namespace std;
 
-
-vector<Contour> extractBOI(const Mat& frame);
+list<Blob> extractBOI(const Mat& frame);
 
 #endif /* !EXTRACTOR_H */

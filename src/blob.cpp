@@ -3,17 +3,18 @@
 
 Blob::Blob(const Contour& _contour)
 {
-	this.update(_contour);
+	update(_contour);
 }
 
 void Blob::update(const Contour& _contour)
 {
-	this.path.push_back(this.centroid);
-	this.area = contourArea(_contour, false);
-	this.bBox = boundingRect(_contour);
+	Point centroid = contourCentroid(_contour);
+	path.push_back(centroid);
+	area = contourArea(_contour, false);
+	bBox = boundingRect(_contour);
 }
 
 double Blob::distance(const Blob& _blob)
 {
-	return norm(this.path.back() - _blob.back());
+	return norm(path.back() - _blob.path.back());
 }
