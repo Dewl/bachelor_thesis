@@ -86,8 +86,9 @@ To do:
 		Create Blob Model	[x]
 		Blob LinkedList		[x]
 		Create Tracker Module	[_]
+			- Centroid distant	[_]
+		Blob Crossing Counting	[_]
 
-		- Centroid distant	[_]
 	Blob merging/separating - hkhoi	[_]
 
 	Experiments:
