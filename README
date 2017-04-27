@@ -79,9 +79,15 @@ To do:
 
 	Background Substraction		[x]
 	Shadow Segmentation - ctkiet	[_]
+
 	Blobs Extracting - hkhoi	[x]
+
 	Blob Labeling - hkhoi		[_]
+		Create Blob Model	[x]
+		Create Tracker Module	[_]
+
 		- Centroid distant	[_]
+	Blob merging/separating - hkhoi	[_]
 
 	Experiments:
 		Single person			[_]
