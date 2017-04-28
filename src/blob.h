@@ -16,8 +16,8 @@ class Blob {
 		Rect bBox;
 
 		Blob(const Contour& _contour);
-		void update(const Contour& _contour);
-		double distance(Blob& _blob);
+		void update(const Blob& _blob);
+		double distance(const Blob& _blob) const;
 };
 
 #endif /* !BLOB_H */

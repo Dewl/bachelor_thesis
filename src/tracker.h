@@ -9,10 +9,10 @@ using namespace std;
 
 class Tracker {
 	public:
-		int thres;
-		list<Blob> blobList;
-		Tracker(int _thres);
-		void receive(const list<Blob> blobs);
-}
+		double thres = 20;
+		list<Blob> blobs;
+
+		void receive(const list<Blob> inputBlobs);
+};
 
 #endif /* !TRACKER_H */

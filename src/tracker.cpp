@@ -1,41 +1,55 @@
-#include "tracker.h"
+#include <vector>
 #include <cstdlib>
+#include "tracker.h"
 
 using namespace std;
 
-Tracker::Tracker(int _thres)
-{
-	this.thres = _thes;
-}
+typedef list<Blob>::iterator lBi;
+typedef list<Blob>::const_iterator lBci;
 
-void Tracker::receive(const list<Blob> blobs)
+void Tracker::receive(const list<Blob> inputBlobs)
 {
-	int size = this.blobList.size();
-	int inputSize = blobs.size();
-	int minDist[size];
-	Blob* match[size];
+	vector<double> minDist(blobs.size());
+	vector<const Blob*> matchedBlob(blobs.size());
+	list<Blob> unassociated;
 
-	for (int i = 0; i < size; ++i) {
-		minDist[i] = this.thres;
-		match[i] = NULL;
+	for (unsigned int i = 0; i < blobs.size(); ++i) {
+		minDist[i] = thres;
+		matchedBlob[i] = NULL;
+	}
+	
+	for (lBci inIt = inputBlobs.begin(); inIt != inputBlobs.end(); ++inIt) {
+		int index = 0;
+		bool associated = false;
+		for (lBci it = blobs.begin(); it != blobs.end(); ++it) {
+			double dist = it->distance(*inIt);
+			if (dist < minDist[index]) {
+				minDist[index] = dist;
+				matchedBlob[index] = &*inIt;
+				associated = true;
+			}
+			++index;
+		}
+
+		if (!associated) {
+			unassociated.push_back(*inIt);
+		}
 	}
 
-	list<Blob>::iterator inputIt = blobs.begin();
-
-	while (inputIt != blobs.end()) {
-		list<Blob>::iterator it = this.blobList.begin();
-		int index = 0;
-	
-		Blob &curInputBlob = *inputIt;
-
-		while (it != this.blobList.end()) {
-			Blob &curBlob = *it;
-			int distance = 
+	int index = 0;
+	for (lBi it = blobs.begin(); it != blobs.end(); ++it) {
+		if (!matchedBlob[index]) {
+			blobs.erase(it++);
+		} else {
+			Blob* cur = &*it;
+			cur->update(*matchedBlob[index]);
 			++it;
-			++index;
-			// Iterate module's blob list
-		}	
-		++inputIt;
-		// Iterate input's blob list
+		}
+
+		index += 1;
+	}
+
+	for (lBi it = unassociated.begin(); it != unassociated.end(); ++it) {
+		blobs.push_back(*it);
 	}
 }
