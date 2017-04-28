@@ -39,6 +39,7 @@
 #include "debug.h"
 #include "const.h"
 #include "contour.h"
+#include "tracker.h"
 
 using namespace std;
 using namespace cv;
@@ -78,8 +79,9 @@ void processVideo(char *src)
 
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
-		
-	//vector<Contour> contours;
+	
+	Tracker tracker;	
+
 	list<Blob> blobs;
 
 	while (true) {
@@ -108,7 +110,8 @@ void processVideo(char *src)
 		refineBinaryImage(foreground);
 
 		blobs = extractBOI(foreground);
-		blobDebug(origin, blobs);
+		tracker.receive(blobs);
+		blobDebug(origin, tracker.blobs);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);

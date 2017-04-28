@@ -11,6 +11,8 @@ Blob::Blob(const Contour& _contour)
 
 void Blob::update(const Blob& _blob)
 {
+	cout << "debug:blob:_blob path size:" << _blob.path.size() << endl;
+	cout << "debug:blob:_blob area:" << _blob.area << endl;
 	path.push_back(_blob.path.back());
 	area = _blob.area;
 	bBox = _blob.bBox;

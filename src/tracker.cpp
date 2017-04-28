@@ -36,9 +36,17 @@ void Tracker::receive(const list<Blob> inputBlobs)
 		}
 	}
 
-	int index = 0;
+	unsigned int index = 0;
 	for (lBi it = blobs.begin(); it != blobs.end(); ++it) {
+		if (index >= blobs.size()) {
+			break;
+		}
+
+		cout << "debug:tracker:index:" << index << endl;
+		cout << "debug:tracker:blobs.size:" << blobs.size() << endl;
+		cout << "debug:tracker:matched.size:" << matchedBlob.size() << endl;
 		if (!matchedBlob[index]) {
+			cout << "debug:tracker: erase" << endl;
 			blobs.erase(it++);
 		} else {
 			Blob* cur = &*it;
