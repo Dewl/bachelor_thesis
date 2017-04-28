@@ -42,11 +42,7 @@ void Tracker::receive(const list<Blob> inputBlobs)
 			break;
 		}
 
-		cout << "debug:tracker:index:" << index << endl;
-		cout << "debug:tracker:blobs.size:" << blobs.size() << endl;
-		cout << "debug:tracker:matched.size:" << matchedBlob.size() << endl;
 		if (!matchedBlob[index]) {
-			cout << "debug:tracker: erase" << endl;
 			blobs.erase(it++);
 		} else {
 			Blob* cur = &*it;

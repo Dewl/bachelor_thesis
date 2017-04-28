@@ -1,6 +1,6 @@
 LIBS_OPENCV = `$(PREFIX)pkg-config --libs opencv`
 INCLUDE_OPENCV = `$(PREFIX)pkg-config --cflags opencv`
-OPT = -Wall -O
+OPT = -Wall -O0
 OPT_CPP = -std=c++11 -g
 
 all: vibe main debug cvutil extractor blob tracker
