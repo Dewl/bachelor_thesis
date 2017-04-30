@@ -44,15 +44,6 @@
 using namespace std;
 using namespace cv;
 
-#define INPUT "input.avi"
-
-#define Y_UP 100
-#define Y_DOWN 400
-
-#define BLOB_SIZE 4000
-#define TTL 30
-#define RATIO 0.6
-
 /* Prototypes */
 void processVideo(char *src);
 
@@ -80,9 +71,14 @@ void processVideo(char *src)
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
 	
-	Tracker tracker;	
+	Tracker tracker;
+	Extractor extractor(800, 0.6, true, 200, 400);
 
 	list<Blob> blobs;
+
+	// debug
+	int pre = 0;
+	int now = 0;
 
 	while (true) {
 		if (!cap.read(origin)) {
@@ -109,9 +105,15 @@ void processVideo(char *src)
 
 		refineBinaryImage(foreground);
 
-		blobs = extractBOI(foreground);
-		tracker.receive(blobs);
-		blobDebug(origin, tracker.blobs);
+		blobs = extractor.extractBOI(foreground);
+		//tracker.receive(blobs);
+		now = blobs.size();
+		if (now != pre) {
+			cout << "debug:main:people:" << now << endl;
+			pre = now;
+		}
+
+		blobDebug(origin, blobs, true, 200, 400);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);
@@ -124,3 +126,4 @@ void processVideo(char *src)
 	cap.release();
 	libvibeModel_Sequential_Free(model);
 }
+

@@ -80,8 +80,14 @@ void contourDebug(Mat& canvas, const vector<Contour>& contours)
 	}
 }
 
-void blobDebug(Mat& canvas, const list<Blob>& blobs)
+void blobDebug(Mat& canvas, const list<Blob>& blobs,
+	       bool hor, int val1, int val2)
 {
+	if (hor) {
+		drawVerticalLine(canvas, val1);
+		drawVerticalLine(canvas, val2);
+	}
+
 	list<Blob>::const_iterator it = blobs.cbegin();
 	while (it != blobs.cend()) {
 		list<Point>::const_iterator pathIt = it->path.cbegin();
@@ -91,7 +97,7 @@ void blobDebug(Mat& canvas, const list<Blob>& blobs)
 			++pathIt;
 		}
 		
-		string info = "a=" + to_string(it->area);
+		string info = "y:" + to_string(it->path.back().x);
 		drawTextRect(canvas, info, it->bBox);
 		drawRect(canvas, it->bBox);
 		++it;

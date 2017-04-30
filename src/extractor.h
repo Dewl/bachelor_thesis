@@ -10,6 +10,25 @@
 using namespace cv;
 using namespace std;
 
-list<Blob> extractBOI(const Mat& frame);
+class Extractor {
+	
+	private:
+		list<Blob> filterBlob(const vector<Contour>& contours);
+
+	public:
+		int area;
+		double ratio;
+		int bound1;
+		int bound2;
+		bool hor;
+
+		Extractor(int area,
+			  double ratio,
+			  bool hor,
+			  int bound1,
+			  int bound2
+			  );
+		list<Blob> extractBOI(const Mat& frame);
+};
 
 #endif /* !EXTRACTOR_H */

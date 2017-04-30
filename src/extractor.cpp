@@ -1,9 +1,20 @@
 #include "extractor.h"
 #include "cvutil.h"
 
-static list<Blob> filterBlob(const vector<Contour>& contours);
+Extractor::Extractor(int _area,
+		    double _ratio,
+		    bool _hor,
+		    int _bound1,
+		    int _bound2)
+{
+	area = _area;
+	ratio = _ratio;
+	bound1 = _bound1;
+	bound2 = _bound2;
+	hor = _hor;
+}
 
-list<Blob> extractBOI(const Mat& frame)
+list<Blob> Extractor::extractBOI(const Mat& frame)
 {
 	vector<Contour> contours;
 	
@@ -15,13 +26,28 @@ list<Blob> extractBOI(const Mat& frame)
 	return ret;
 }
 
-static list<Blob> filterBlob(const vector<Contour>& contours)
+list<Blob> Extractor::filterBlob(const vector<Contour>& contours)
 {
 	list<Blob> ret;
 
 	for (unsigned int i = 0; i < contours.size(); ++i) {
-		if (contourArea(contours[i]) > 500 &&
-				contourBoundingRatio(contours[i]) > 0.6) {
+		int conArea = contourArea(contours[i]);
+		double conRatio = contourBoundingRatio(contours[i]);
+		double conX = contourCentroid(contours[i]).x;
+		double conY = contourCentroid(contours[i]).x;
+		double conBound1 = false, conBound2 = false;
+
+		if (hor) {
+			conBound1 = conX >= bound1;
+			conBound2 = conX <= bound2;
+		} else {
+			conBound1 = conY >= bound1;
+			conBound2 = conY <= bound2;
+		}
+
+		if (conArea >= area &&
+		    conRatio >= ratio &&
+		    conBound1 && conBound2) {
 			Contour cur = contours[i];
 			ret.push_back(Blob(cur));
 		}

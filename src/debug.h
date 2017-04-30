@@ -87,7 +87,8 @@ void error(string msg);
  */
 void contourDebug(Mat& canvas, const vector<Contour>& contours);
 
-void blobDebug(Mat& canvas, const list<Blob>& blobs);
+void blobDebug(Mat& canvas, const list<Blob>& blobs,
+	       bool hor, int val1, int val2);
 
 #endif /* !DEBUG_H
 */

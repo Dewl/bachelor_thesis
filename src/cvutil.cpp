@@ -85,3 +85,9 @@ double contourBoundingRatio(const Contour& _contour)
 {
 	return rectRatio(boundingRect(_contour));
 }
+
+void drawVerticalLine(Mat& canvas, int x)
+{
+	int height = canvas.rows;
+	line(canvas, Point(x, 0), Point(x, height), COLOR_CYAN, 1);
+}

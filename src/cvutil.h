@@ -101,4 +101,6 @@ double rectRatio(const Rect& rect);
 
 double contourBoundingRatio(const Contour& _contour);
 
+void drawVerticalLine(Mat& canvas, int x);
+
 #endif /* !MATUTIL_H */

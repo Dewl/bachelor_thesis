@@ -1,5 +1,6 @@
 #include "blob.h"
 #include "cvutil.h"
+#include "const.h"
 
 Blob::Blob(const Contour& _contour)
 {
@@ -20,4 +21,3 @@ double Blob::distance(const Blob& _blob) const
 {
 	return norm(path.back() - _blob.path.back());
 }
-
