@@ -81,6 +81,9 @@ To do:
 	Shadow Segmentation - ctkiet	[_]
 
 	Blobs Extracting - hkhoi	[x]
+		Minimum area - naive	[x]
+		Region of interested	[x]
+		
 
 	Blob Labeling - hkhoi		[_]
 		Create Blob Model	[x]
