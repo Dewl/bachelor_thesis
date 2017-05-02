@@ -71,8 +71,10 @@ class Blob {
 		 * @brief The estimation of number of people in the current
 		 * blob.
 		 */
-		int estimate;
-
+		int estimation;
+	
+		bool counted;
+	
 		/**
 		 * @brief Constructs Blob from Contour.
 		 *

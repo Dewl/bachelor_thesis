@@ -40,6 +40,7 @@
 #include "const.h"
 #include "contour.h"
 #include "tracker.h"
+#include "counter.h"
 
 using namespace std;
 using namespace cv;
@@ -69,6 +70,7 @@ void processVideo(char *src)
 	
 	Tracker tracker;
 	Extractor extractor(750, 0.2, true, 220, 420);
+	Counter counter(true, 240, 400);
 	list<Blob> blobs;
 
 	while (true) {
@@ -98,8 +100,10 @@ void processVideo(char *src)
 
 		blobs = extractor.extractBOI(foreground);
 		tracker.receive(blobs);
+		counter.receive(tracker.blobs);
 
 		blobDebug(origin, tracker.blobs, true, 220, 420);
+		counterDebug(origin, counter);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);
