@@ -25,7 +25,7 @@ void Tracker::receive(list<Blob> in)
 		}
 
 		if (bestMatch) {
-			moIt->update(*bestMatch);
+			moIt->associate(*bestMatch);
 			bestMatch->associated = true;
 		} else {
 			blobs.erase(moIt++);

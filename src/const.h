@@ -34,4 +34,4 @@
 #define COLOR_YELLOW Scalar(0, 255, 255)
 #define COLOR_PURPLE Scalar(255, 0, 255)
 
-#endif /* !CONSkkTANT_H */
+#endif /* !CONSTANT_H */

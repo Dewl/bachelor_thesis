@@ -44,12 +44,8 @@
 using namespace std;
 using namespace cv;
 
-/* Prototypes */
 void processVideo(char *src);
 
-/**
- * This is for testing purposes only. The input is fixed with input.mp4
- */
 int main(int args, char **argv)
 {
 	processVideo(argv[1]);

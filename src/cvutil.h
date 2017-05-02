@@ -97,10 +97,33 @@ Point contourCentroid(const Contour& _contour);
  */
 void drawText(Mat& canvas, const string& str, const Point& point);
 
+/**
+ * @brief Returns the rectangle's ratio which is the value
+ * of width/height of a rectangle.
+ * Note, this value is always no larger than 1.0 .
+ *
+ * @param rect
+ *
+ * @return 
+ */
 double rectRatio(const Rect& rect);
 
+/**
+ * @brief Returns the rectangle's ratio of the current blob's bounding
+ * rectangle.
+ *
+ * @param _contour
+ *
+ * @return 
+ */
 double contourBoundingRatio(const Contour& _contour);
 
+/**
+ * @brief Draws a vertical line.
+ *
+ * @param canvas
+ * @param x
+ */
 void drawVerticalLine(Mat& canvas, int x);
 
 #endif /* !MATUTIL_H */

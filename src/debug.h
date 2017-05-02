@@ -87,6 +87,15 @@ void error(string msg);
  */
 void contourDebug(Mat& canvas, const vector<Contour>& contours);
 
+/**
+ * @brief Displays essential information of a blob.
+ *
+ * @param canvas
+ * @param blobs
+ * @param hor
+ * @param val1
+ * @param val2
+ */
 void blobDebug(Mat& canvas, const list<Blob>& blobs,
 	       bool hor, int val1, int val2);
 
