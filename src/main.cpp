@@ -72,7 +72,7 @@ void processVideo(char *src)
 	bool init = false;
 	
 	Tracker tracker;
-	Extractor extractor(850, 0.5, true, 150, 450);
+	Extractor extractor(750, 0.2, true, 220, 420);
 	list<Blob> blobs;
 
 	while (true) {
@@ -103,12 +103,12 @@ void processVideo(char *src)
 		blobs = extractor.extractBOI(foreground);
 		tracker.receive(blobs);
 
-		blobDebug(origin, tracker.blobs, true, 150, 450);
+		blobDebug(origin, tracker.blobs, true, 220, 420);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);
 
-		if (waitKey(33) == 'q') {
+		if (waitKey(22) == 'q') {
 			break;
 		}
 	}

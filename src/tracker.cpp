@@ -7,59 +7,35 @@ using namespace std;
 typedef list<Blob>::iterator lBi;
 typedef list<Blob>::const_iterator lBci;
 
-void Tracker::receive(const list<Blob> inputBlobs)
+void Tracker::receive(list<Blob> in)
 {
-	vector<double> minDist(blobs.size());
-	vector<const Blob*> matchedBlob(blobs.size());
-	list<Blob> unassociated;
+	for (lBi moIt = blobs.begin(); moIt != blobs.end(); ++moIt) {
+		double minDif = thres;
+		Blob* bestMatch = NULL;
+		for (lBi inIt = in.begin(); inIt != in.end(); ++inIt) {
+			if (inIt->associated)
+				continue;
 
-	for (unsigned int i = 0; i < blobs.size(); ++i) {
-		minDist[i] = thres;
-		matchedBlob[i] = NULL;
-	}
-
-	cout << "debug:tracker:input_size:" << inputBlobs.size() << endl;
-	cout << "debug:tracker:module_size:" << blobs.size() << endl;
-
-	for (lBci inIt = inputBlobs.begin(); inIt != inputBlobs.end(); ++inIt) {
-		int index = 0;
-		bool associated = false;
-		for (lBci it = blobs.begin(); it != blobs.end(); ++it) {
-			double dist = it->distance(*inIt);
-			if (dist < minDist[index]) {
-				minDist[index] = dist;
-				matchedBlob[index] = &*inIt;
-				associated = true;
+			double dif = moIt->dif(*inIt);
+			if (dif < minDif) {
+				minDif = dif;
+				bestMatch = &*inIt;
 			}
-			// For each blob in module
+			// For each input blob
 		}
 
-		if (!associated) {
-			cout << "debug:tracker:unassociated:" << index << endl;
-			unassociated.push_back(*inIt);
-		}
-		++index;
-		// For each blob in input
-	}
-
-	unsigned int index = 0;
-	for (lBi it = blobs.begin(); it != blobs.end(); ++it) {
-		if (index >= blobs.size()) {
-			break;
-		}
-
-		if (!matchedBlob[index]) {
-			blobs.erase(it++);
+		if (bestMatch) {
+			moIt->update(*bestMatch);
+			bestMatch->associated = true;
 		} else {
-			Blob* cur = &*it;
-			cur->update(*matchedBlob[index]);
-			++it;
+			blobs.erase(moIt++);
 		}
-
-		index += 1;
+		// For each module blob
 	}
 
-	for (lBi it = unassociated.begin(); it != unassociated.end(); ++it) {
-		blobs.push_back(*it);
+	for (lBci inIt = in.cbegin(); inIt != in.cend(); ++inIt) {
+		if (!inIt->associated) {
+			blobs.push_back(*inIt);
+		}
 	}
 }

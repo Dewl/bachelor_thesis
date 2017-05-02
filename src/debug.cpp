@@ -97,7 +97,7 @@ void blobDebug(Mat& canvas, const list<Blob>& blobs,
 			++pathIt;
 		}
 		
-		string info = "a:" + to_string(rectRatio(it->bBox));
+		string info = to_string(it->estimate);
 		drawTextRect(canvas, info, it->bBox);
 		drawRect(canvas, it->bBox);
 		++it;
