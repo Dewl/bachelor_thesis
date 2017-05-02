@@ -9,6 +9,7 @@ typedef list<Blob>::const_iterator lBci;
 
 void Tracker::receive(list<Blob> in)
 {
+	lostBlobs.clear();
 	for (lBi moIt = blobs.begin(); moIt != blobs.end(); ++moIt) {
 		double minDif = thres;
 		Blob* bestMatch = NULL;
@@ -28,6 +29,7 @@ void Tracker::receive(list<Blob> in)
 			moIt->associate(*bestMatch);
 			bestMatch->associated = true;
 		} else {
+			lostBlobs.push_back(*moIt);
 			blobs.erase(moIt++);
 		}
 		// For each module blob

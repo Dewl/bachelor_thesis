@@ -97,9 +97,21 @@ void blobDebug(Mat& canvas, const list<Blob>& blobs,
 			++pathIt;
 		}
 		
-		string info = to_string(it->estimate);
+		string info = to_string(it->estimation);
 		drawTextRect(canvas, info, it->bBox);
 		drawRect(canvas, it->bBox);
 		++it;
 	}
+}
+
+void counterDebug(Mat& canvas, const Counter& counter)
+{
+	if (counter.hor) {
+		drawVerticalLine(canvas, counter.bound1);
+		drawVerticalLine(canvas, counter.bound2);
+	}
+
+	string info = "up:" + to_string(counter.upperCount)
+		+ ", low:" + to_string(counter.lowerCount);
+	drawText(canvas, info, Point(20, 20));
 }

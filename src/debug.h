@@ -32,6 +32,7 @@
 
 #include "contour.h"
 #include "blob.h"
+#include "counter.h"
 
 using namespace std;
 
@@ -98,6 +99,8 @@ void contourDebug(Mat& canvas, const vector<Contour>& contours);
  */
 void blobDebug(Mat& canvas, const list<Blob>& blobs,
 	       bool hor, int val1, int val2);
+
+void counterDebug(Mat& canvas, const Counter& counter);
 
 #endif /* !DEBUG_H
 */

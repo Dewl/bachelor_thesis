@@ -35,7 +35,7 @@ Blob::Blob(const Contour& _contour)
 	area = contourArea(_contour, false);
 	bBox = boundingRect(_contour);
 	associated = false;
-	estimate = 1;
+	estimation = 1;
 }
 
 void Blob::associate(const Blob& _blob)
