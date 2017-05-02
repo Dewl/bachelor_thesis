@@ -56,12 +56,17 @@ How To Build
 
 Executable binary is located in bin/, object files are located in obj/
 
-Project Structure
+Modules
 -----------------
-	main:	Entry point for the core application
-	cvutil:	OpenCV library wrapper
-	debug:	Plays the role like Android Log.d()
-	vibe:	Foreground segmenter
+	main:		Entry point for the core application
+	cvutil:		OpenCV library wrapper
+	debug:		Plays the role like Android Log.d()
+	vibe:		Foreground segmenter
+	blob:		Model for binary blobs
+	const:		Contains constants for the project
+	contour:	Contains Contour's definition
+	extractor:	Extract Blobs of Interest
+	tracker:	Keeps track of binary blobs
 
 General Architecture
 --------------------
@@ -97,7 +102,7 @@ General Architecture
 			|			|
 			v			|
 		-----------------------	   ------------
-		| Blobs of Interested |	   | Learning |
+		| Blobs of Interest   |	   | Learning |
 		-----------------------	   ------------
 			|			|
 			|			|
