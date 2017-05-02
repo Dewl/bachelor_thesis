@@ -17,7 +17,10 @@ void Tracker::receive(const list<Blob> inputBlobs)
 		minDist[i] = thres;
 		matchedBlob[i] = NULL;
 	}
-	
+
+	cout << "debug:tracker:input_size:" << inputBlobs.size() << endl;
+	cout << "debug:tracker:module_size:" << blobs.size() << endl;
+
 	for (lBci inIt = inputBlobs.begin(); inIt != inputBlobs.end(); ++inIt) {
 		int index = 0;
 		bool associated = false;
@@ -28,12 +31,15 @@ void Tracker::receive(const list<Blob> inputBlobs)
 				matchedBlob[index] = &*inIt;
 				associated = true;
 			}
-			++index;
+			// For each blob in module
 		}
 
 		if (!associated) {
+			cout << "debug:tracker:unassociated:" << index << endl;
 			unassociated.push_back(*inIt);
 		}
+		++index;
+		// For each blob in input
 	}
 
 	unsigned int index = 0;

@@ -72,13 +72,8 @@ void processVideo(char *src)
 	bool init = false;
 	
 	Tracker tracker;
-	Extractor extractor(800, 0.6, true, 200, 400);
-
+	Extractor extractor(850, 0.5, true, 150, 450);
 	list<Blob> blobs;
-
-	// debug
-	int pre = 0;
-	int now = 0;
 
 	while (true) {
 		if (!cap.read(origin)) {
@@ -106,14 +101,9 @@ void processVideo(char *src)
 		refineBinaryImage(foreground);
 
 		blobs = extractor.extractBOI(foreground);
-		//tracker.receive(blobs);
-		now = blobs.size();
-		if (now != pre) {
-			cout << "debug:main:people:" << now << endl;
-			pre = now;
-		}
+		tracker.receive(blobs);
 
-		blobDebug(origin, blobs, true, 200, 400);
+		blobDebug(origin, tracker.blobs, true, 150, 450);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);

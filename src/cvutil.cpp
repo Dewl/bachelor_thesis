@@ -35,8 +35,8 @@ using namespace std;
 void refineBinaryImage(Mat& binImage)
 {
 	medianBlur(binImage, binImage, 5);
-	erode(binImage, binImage, Mat(), Point(-1, -1), 2);
-	dilate(binImage, binImage, Mat(), Point(-1, -1), 2);
+	erode(binImage, binImage, Mat(), Point(-1, -1), 3);
+	dilate(binImage, binImage, Mat(), Point(-1, -1), 3);
 }
 
 Point rectCentroid(const Rect& rect)

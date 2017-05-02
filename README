@@ -88,9 +88,8 @@ To do:
 	Blob Labeling - hkhoi		[_]
 		Create Blob Model	[x]
 		Blob LinkedList		[x]
-		Create Tracker Module	[x]
-			- Centroid distant	[x]
-		Test Tracker Module	[_] - Failed/Debugging
+		Tracker Module	[_]
+
 		Blob Crossing Counting	[_]
 
 	Blob merging/separating - hkhoi	[_]
