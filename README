@@ -1,6 +1,52 @@
 Bachelor's Thesis: Passenger Flow Analysis using Computer Vision
 ================================================================
 
+To do:
+------
+
+	Code Review		[x]
+	General  Architecture	[x]
+
+	Background Substraction		[x]
+	Shadow Segmentation - ctkiet	[.]
+
+	Blobs Extracting - hkhoi	[x]
+		Minimum area		[x]
+		Region of interested	[x]
+		
+
+	Blob Labeling - hkhoi
+		Create Blob Model	[x]
+		Blob LinkedList		[x]
+		Tracker Module		[x]
+		People Counting		[_]
+
+	Counter Module			[_]
+
+	Stat Module			[_]
+
+	People Estimation		[_]
+
+	Experiments:
+		Single person			[x]
+		Multiple separate people	[x]
+		Group of people			[_]
+		Merging people			[_]
+		Separating peole		[_]
+		People with stuffs		[_]
+		Mixing case			[_]
+
+
+	Blob Properties Debug			[x]
+	Human Properties Callibration/Learning	[?]
+	Implementation
+		Camera?			[_]
+		Accuracy?		[_]
+
+Screenshot
+----------
+https://raw.githubusercontent.com/hkhoi/bachelor_thesis/feature/blob_label/etc/screenshot01.png
+
 How To Build
 -------------
 
@@ -10,50 +56,67 @@ How To Build
 
 Executable binary is located in bin/, object files are located in obj/
 
-Project Structure
+Modules
 -----------------
-	main:	Entry point for the core application
-	cvutil:	OpenCV library wrapper
-	debug:	Plays the role like Android Log.d()
-	vibe:	Foreground segmenter
+	main:		Entry point for the core application
+	cvutil:		OpenCV library wrapper
+	debug:		Plays the role like Android Log.d()
+	vibe:		Foreground segmenter
+	blob:		Model for binary blobs
+	const:		Contains constants for the project
+	contour:	Contains Contour's definition
+	extractor:	Extract Blobs of Interest
+	tracker:	Keeps track of binary blobs
 
 General Architecture
 --------------------
-		----------------
-		|Frame Sequence|
-		----------------
+		------------------
+		| Frame Sequence |
+		------------------
 			|
 			v
-		---------------
-		|Current Frame|
-		---------------
+		-----------------
+		| Current Frame |
+		-----------------
 			|
-			v	 -------------------------
-			-------->|Update Background Model|
-			|	 -------------------------
+			|
+			v
+		---------------		
+		| ViBE Module |<---------
+		---------------		|
+			|		|
+			|	 ----------------------------
+			-------->| Updated Background Model |
+			|	 ----------------------------
 			|		|
 			v		|
 		---------------------	|
-		|Foreground (binary)|<---
+		|    Foreground     |<---
 		---------------------
 			|
 			v
-		-----------------
-		|Contours	|
-		-----------------
-			|             -----------
-			|<------------|Extractor|
-			|             -----------
-			v
-		---------------------
-		|Blobs of Interested|
-		---------------------
+		--------------------
+		| Extractor Module |<------------
+		--------------------		|
+			|			|
+			|			|
+			v			|
+		-----------------------	   ------------
+		| Blobs of Interest   |	   | Learning |
+		-----------------------	   ------------
+			|			|
+			|			|
+			v			|
+		------------------        ---------------
+		| Tracker Module |------->| Stat Module |
+		------------------        ---------------
 			|
 			|
+			|
 			v
-		-----------------
-		|Tracker	|
-		-----------------
+		------------------
+		| Counter Module |
+		------------------
 
 Extractor
 ---------
@@ -70,40 +133,11 @@ Extractor
 		+ Extent (object area / bounding box area)	[?]
 
 	More on: http://docs.opencv.org/3.2.0/d1/d32/tutorial_py_contour_properties.html
-
-To do:
-------
-
-	Code Review		[x]
-	General  Architecture	[x]
-
-	Background Substraction		[x]
-	Blobs Extracting		[x]
-	Blob Labeling			[_]
-		Centroid		[_]
-
-	Experiments:
-		Single person			[_]
-		Multiple separate people	[_]
-		Group of people			[_]
-		Merging people			[_]
-		Separating peole		[_]
-		Mixing case			[_]
-
-	Blob Properties Debug			[x]
-	Blob Properties Log/Stat tool		[_]
-	Human Properties Callibration/Learning	[_]
-		Callibration of Learning?	[_]
-	Implementation
-		Camera?			[_]
-		Accuracy?		[_]
+	(Will write this section later)
 
 Challenges
 ----------
-
 	Low-angle shadows			[_]
 		- Mean/Median color to filter out shadows [?]
 		- Stronger refinery		[_]
-	How comes the Extractor's criteria	[_]
-		Learning?
-		Callibrating?
+		- Criteria Learning		[_]

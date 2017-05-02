@@ -1,5 +1,5 @@
 /* Copyright (C) 
- * 2017 - Khoi Hoang, Kiet Chuong
+ * 2017 - Khoi Hoang
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -17,21 +17,40 @@
  */
 
 /**
- * @file const.h
- * @brief Constants
+ * @file blob.cpp
+ * @brief The implementation for blob.h
  * @author Khoi Hoang
  * @version 1.0
- * @date 2017-03-16
+ * @date 2017-05-02
  */
 
-#ifndef CONSTANT_H
-#define CONSTANT_H
+#include "blob.h"
+#include "cvutil.h"
+#include "const.h"
 
-#define COLOR_GREEN Scalar(0, 255, 0)
-#define COLOR_RED Scalar(0, 0, 255)
-#define COLOR_BLUE Scalar(255, 0, 0)
-#define COLOR_CYAN Scalar(255, 255, 0)
-#define COLOR_YELLOW Scalar(0, 255, 255)
-#define COLOR_PURPLE Scalar(255, 0, 255)
+Blob::Blob(const Contour& _contour)
+{
+	Point centroid = contourCentroid(_contour);
+	path.push_back(centroid);
+	area = contourArea(_contour, false);
+	bBox = boundingRect(_contour);
+	associated = false;
+	estimate = 1;
+}
 
-#endif /* !CONSTANT_H */
+void Blob::associate(const Blob& _blob)
+{
+	path.push_back(_blob.path.back());
+	area = _blob.area;
+	bBox = _blob.bBox;
+}
+
+double Blob::distance(const Blob& _blob) const
+{
+	return norm(path.back() - _blob.path.back());
+}
+
+double Blob::dif(const Blob& _blob) const
+{
+	return distance(_blob);
+}

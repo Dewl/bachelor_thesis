@@ -28,6 +28,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <list>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -38,25 +39,13 @@
 #include "debug.h"
 #include "const.h"
 #include "contour.h"
+#include "tracker.h"
 
 using namespace std;
 using namespace cv;
 
-#define INPUT "input.avi"
-
-#define Y_UP 100
-#define Y_DOWN 400
-
-#define BLOB_SIZE 4000
-#define TTL 30
-#define RATIO 0.6
-
-/* Prototypes */
 void processVideo(char *src);
 
-/**
- * This is for testing purposes only. The input is fixed with input.mp4
- */
 int main(int args, char **argv)
 {
 	processVideo(argv[1]);
@@ -77,8 +66,10 @@ void processVideo(char *src)
 
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
-		
-	vector<contour> contours;
+	
+	Tracker tracker;
+	Extractor extractor(750, 0.2, true, 220, 420);
+	list<Blob> blobs;
 
 	while (true) {
 		if (!cap.read(origin)) {
@@ -105,14 +96,15 @@ void processVideo(char *src)
 
 		refineBinaryImage(foreground);
 
-		contours = extractBOI(foreground);
+		blobs = extractor.extractBOI(foreground);
+		tracker.receive(blobs);
 
-		contourDebug(origin, contours);
+		blobDebug(origin, tracker.blobs, true, 220, 420);
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);
 
-		if (waitKey(33) == 'q') {
+		if (waitKey(22) == 'q') {
 			break;
 		}
 	}
@@ -120,3 +112,4 @@ void processVideo(char *src)
 	cap.release();
 	libvibeModel_Sequential_Free(model);
 }
+

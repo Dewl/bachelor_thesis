@@ -35,8 +35,8 @@ using namespace std;
 void refineBinaryImage(Mat& binImage)
 {
 	medianBlur(binImage, binImage, 5);
-	erode(binImage, binImage, Mat(), Point(-1, -1), 4);
-	dilate(binImage, binImage, Mat(), Point(-1, -1), 4);
+	erode(binImage, binImage, Mat(), Point(-1, -1), 3);
+	dilate(binImage, binImage, Mat(), Point(-1, -1), 3);
 }
 
 Point rectCentroid(const Rect& rect)
@@ -69,10 +69,10 @@ void drawText(Mat& canvas, const string& str, const Point& point)
 			COLOR_YELLOW, 1, CV_AA);
 }
 
-Point contourCentroid(const vector<Point>& contour)
+Point contourCentroid(const Contour& _contour)
 {
-	Rect rect = boundingRect(contour);
-	return rectCentroid(rect);
+	Moments mu = moments(_contour, false);
+	return Point2f(mu.m10/mu.m00 , mu.m01/mu.m00);
 }
 
 double rectRatio(const Rect& rect)
@@ -81,7 +81,13 @@ double rectRatio(const Rect& rect)
 	return ret <= 1.0 ? ret : (double) 1.0 / ret;
 }
 
-double contourBoundingRatio(const contour& _contour)
+double contourBoundingRatio(const Contour& _contour)
 {
 	return rectRatio(boundingRect(_contour));
+}
+
+void drawVerticalLine(Mat& canvas, int x)
+{
+	int height = canvas.rows;
+	line(canvas, Point(x, 0), Point(x, height), COLOR_CYAN, 1);
 }

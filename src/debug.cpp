@@ -31,9 +31,6 @@
 #include "debug.h"
 #include "cvutil.h"
 
-using namespace std;
-
-
 void debug(string tag, string msg)
 {
 	if (tag == TAG)
@@ -64,10 +61,10 @@ void error(string msg)
 	exit(EXIT_FAILURE);
 }
 
-void contourDebug(Mat& canvas, const vector<contour>& contours)
+void contourDebug(Mat& canvas, const vector<Contour>& contours)
 {
 	for (unsigned int i = 0; i < contours.size(); ++i) {
-		contour cur = contours[i];
+		Contour cur = contours[i];
 
 		Rect bBox = boundingRect(cur);
 		drawRect(canvas, bBox);
@@ -80,5 +77,29 @@ void contourDebug(Mat& canvas, const vector<contour>& contours)
 		string info = "A=" + to_string(area) + ", R="
 			+ to_string(ratio);
 		drawTextRect(canvas, info, bBox);
+	}
+}
+
+void blobDebug(Mat& canvas, const list<Blob>& blobs,
+	       bool hor, int val1, int val2)
+{
+	if (hor) {
+		drawVerticalLine(canvas, val1);
+		drawVerticalLine(canvas, val2);
+	}
+
+	list<Blob>::const_iterator it = blobs.cbegin();
+	while (it != blobs.cend()) {
+		list<Point>::const_iterator pathIt = it->path.cbegin();
+
+		while (pathIt != it->path.cend()) {
+			drawPoint(canvas, *pathIt);
+			++pathIt;
+		}
+		
+		string info = to_string(it->estimate);
+		drawTextRect(canvas, info, it->bBox);
+		drawRect(canvas, it->bBox);
+		++it;
 	}
 }
