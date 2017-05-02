@@ -72,7 +72,9 @@ class Blob {
 		 * blob.
 		 */
 		int estimation;
-
+	
+		bool counted;
+	
 		/**
 		 * @brief Constructs Blob from Contour.
 		 *

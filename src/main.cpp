@@ -100,7 +100,7 @@ void processVideo(char *src)
 
 		blobs = extractor.extractBOI(foreground);
 		tracker.receive(blobs);
-		counter.receive(tracker.lostBlobs);
+		counter.receive(tracker.blobs);
 
 		blobDebug(origin, tracker.blobs, true, 220, 420);
 		counterDebug(origin, counter);

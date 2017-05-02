@@ -30,7 +30,7 @@
 #include <list>
 #include "blob.h"
 
-typedef list<Blob>::const_iterator lBci;
+typedef list<Blob>::iterator lBi;
 typedef list<Point>::const_reverse_iterator lPcri;
 
 using namespace std;
@@ -54,7 +54,7 @@ class Counter {
 		 *
 		 * @param blob
 		 */
-		void processBlob(const Blob& blob);
+		void processBlob(Blob& blob);
 	public:
 		/**
 		 * @brief The number of estimated people passing the lower
@@ -99,7 +99,7 @@ class Counter {
 		 *
 		 * @param blobs
 		 */
-		void receive(const list<Blob>& blobs);
+		void receive(list<Blob>& blobs);
 };
 
 #endif /* !COUNTER_H */

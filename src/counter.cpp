@@ -35,15 +35,19 @@ Counter::Counter(bool _hor, int _bound1, int _bound2)
 	upperCount = 0;
 }
 
-void Counter::receive(const list<Blob>& blobs)
+void Counter::receive(list<Blob>& blobs)
 {
-	for (lBci it = blobs.cbegin(); it != blobs.cend(); ++it) {
+	for (lBi it = blobs.begin(); it != blobs.end(); ++it) {
 		processBlob(*it);
 	}
 }
 
-void Counter::processBlob(const Blob& blob)
+void Counter::processBlob(Blob& blob)
 {
+	if (blob.counted) {
+		return;
+	}
+
 	lPcri it = blob.path.crbegin();
 	int initial = getPathValue(blob.path.back());
 	if (initial >= bound2) {
@@ -52,6 +56,7 @@ void Counter::processBlob(const Blob& blob)
 				upperCount += blob.estimation;
 				// TODO: someone passing the line
 				cout << "debug:counter:upper line" << endl;
+				blob.counted = true;
 				break;
 			}
 			++it;
@@ -62,6 +67,7 @@ void Counter::processBlob(const Blob& blob)
 				// TODO: someone passing the line
 				lowerCount += blob.estimation;
 				cout << "debug:counter:lower line" << endl;
+				blob.counted = true;
 				break;
 			}
 			++it;

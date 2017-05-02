@@ -11,7 +11,6 @@ class Tracker {
 	public:
 		double thres = 50.0;
 		list<Blob> blobs;
-		list<Blob> lostBlobs;
 
 		void receive(list<Blob> inputBlobs);
 };
