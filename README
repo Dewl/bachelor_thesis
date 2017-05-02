@@ -1,6 +1,48 @@
 Bachelor's Thesis: Passenger Flow Analysis using Computer Vision
 ================================================================
 
+To do:
+------
+
+	Code Review		[x]
+	General  Architecture	[x]
+
+	Background Substraction		[x]
+	Shadow Segmentation - ctkiet	[.]
+
+	Blobs Extracting - hkhoi	[x]
+		Minimum area		[x]
+		Region of interested	[x]
+		
+
+	Blob Labeling - hkhoi
+		Create Blob Model	[x]
+		Blob LinkedList		[x]
+		Tracker Module		[x]
+		People Counting		[_]
+
+	Counter Module			[_]
+
+	Stat Module			[_]
+
+	People Estimation		[_]
+
+	Experiments:
+		Single person			[x]
+		Multiple separate people	[x]
+		Group of people			[_]
+		Merging people			[_]
+		Separating peole		[_]
+		People with stuffs		[_]
+		Mixing case			[_]
+
+
+	Blob Properties Debug			[x]
+	Human Properties Callibration/Learning	[?]
+	Implementation
+		Camera?			[_]
+		Accuracy?		[_]
+
 Screenshot
 ----------
 https://raw.githubusercontent.com/hkhoi/bachelor_thesis/feature/blob_label/etc/screenshot01.png
@@ -68,7 +110,7 @@ General Architecture
 			|
 			v
 		------------------
-		|Counter         |
+		| Counter Module |
 		------------------
 
 Extractor
@@ -86,48 +128,7 @@ Extractor
 		+ Extent (object area / bounding box area)	[?]
 
 	More on: http://docs.opencv.org/3.2.0/d1/d32/tutorial_py_contour_properties.html
-
-To do:
-------
-
-	Code Review		[x]
-	General  Architecture	[x]
-
-	Background Substraction		[x]
-	Shadow Segmentation - ctkiet	[.]
-
-	Blobs Extracting - hkhoi	[x]
-		Minimum area		[x]
-		Region of interested	[x]
-		
-
-	Blob Labeling - hkhoi
-		Create Blob Model	[x]
-		Blob LinkedList		[x]
-		Tracker Module		[x]
-		People Counting		[_]
-
-	Counter Module			[_]
-
-	Stat Module			[_]
-
-	People Estimation		[_]
-
-	Experiments:
-		Single person			[x]
-		Multiple separate people	[x]
-		Group of people			[_]
-		Merging people			[_]
-		Separating peole		[_]
-		People with stuffs		[_]
-		Mixing case			[_]
-
-
-	Blob Properties Debug			[x]
-	Human Properties Callibration/Learning	[?]
-	Implementation
-		Camera?			[_]
-		Accuracy?		[_]
+	(Will write this section later)
 
 Challenges
 ----------
