@@ -78,21 +78,24 @@ To do:
 	General  Architecture	[x]
 
 	Background Substraction		[x]
-	Shadow Segmentation - ctkiet	[_]
+	Shadow Segmentation - ctkiet	[.]
 
 	Blobs Extracting - hkhoi	[x]
-		Minimum area - naive	[x]
+		Minimum area		[x]
 		Region of interested	[x]
 		
 
-	Blob Labeling - hkhoi		[_]
+	Blob Labeling - hkhoi
 		Create Blob Model	[x]
 		Blob LinkedList		[x]
-		Tracker Module	[_]
+		Tracker Module		[x]
+		People Counting		[_]
 
-		Blob Crossing Counting	[_]
+	Counter Module			[_]
 
-	Blob merging/separating - hkhoi	[_]
+	Stat Module			[_]
+
+	People Estimation		[_]
 
 	Experiments:
 		Single person			[_]
@@ -100,22 +103,19 @@ To do:
 		Group of people			[_]
 		Merging people			[_]
 		Separating peole		[_]
+		People with stuffs		[_]
 		Mixing case			[_]
 
+
 	Blob Properties Debug			[x]
-	Blob Properties Log/Stat tool		[_]
-	Human Properties Callibration/Learning	[_]
-		Callibration of Learning?	[_]
+	Human Properties Callibration/Learning	[?]
 	Implementation
 		Camera?			[_]
 		Accuracy?		[_]
 
 Challenges
 ----------
-
 	Low-angle shadows			[_]
 		- Mean/Median color to filter out shadows [?]
 		- Stronger refinery		[_]
-	How comes the Extractor's criteria	[_]
-		Learning?
-		Callibrating?
+		- Criteria Learning		[_]
