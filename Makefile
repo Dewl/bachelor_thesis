@@ -3,7 +3,7 @@ INCLUDE_OPENCV = `$(PREFIX)pkg-config --cflags opencv`
 OPT = -Wall -O0
 OPT_CPP = -std=c++11 -g
 
-all: vibe main debug cvutil extractor blob tracker counter
+all: vibe main debug cvutil extractor blob tracker counter stat
 	mkdir -p bin/
 	$(make link)
 
@@ -43,6 +43,11 @@ tracker:
 counter:
 	mkdir -p obj/
 	g++ $(OPT) $(OPT_CPP) -c src/counter.cpp
+	mv *.o obj/
+
+stat:
+	mkdir -p obj/
+	g++ $(OPT) $(OPT_CPP) -c src/stat.cpp
 	mv *.o obj/
 
 clean:

@@ -54,7 +54,7 @@ class Blob {
 		/**
 		 * @brief Current area in pixels of the current blob.
 		 */
-		int area;
+		list<int> area;
 
 		/**
 		 * @brief Bounding rectangle of the current blob.
@@ -100,5 +100,9 @@ class Blob {
 		 */
 		double dif(const Blob& _blob) const;
 };
+
+typedef list<Blob>::iterator lBi;
+typedef list<Blob>::const_iterator lBci;
+typedef list<Point>::const_reverse_iterator lPcri;
 
 #endif /* !BLOB_H */

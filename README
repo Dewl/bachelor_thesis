@@ -21,12 +21,10 @@ To do:
 		Tracker Module		[x]
 
 	Counter Module			[x]
+	Stat Module			[x]
+	People Estimation (PE)		[_]
 
-	Stat Module			[_]
-
-	People Estimation		[_]
-
-	Experiments:
+	Testing:
 		Single person			[x]
 		Multiple separate people	[x]
 		Group of people			[_]
@@ -34,13 +32,19 @@ To do:
 		Separating peole		[_]
 		People with stuffs		[_]
 		Mixing case			[_]
-
-
+	
 	Blob Properties Debug			[x]
-	Human Properties Callibration/Learning	[?]
+	Human Properties Learning		[?]
+	
+	Optimization				[_]
+
+	Testing:
+		Valgrind			[_]
+		Memory measurement		[_]
+		Speed				[_]
+
 	Implementation
-		Camera?			[_]
-		Accuracy?		[_]
+		IP Camera Integration		[_]
 
 Screenshot
 ----------
@@ -57,15 +61,16 @@ Executable binary is located in bin/, object files are located in obj/
 
 Modules
 -----------------
-	main:		Entry point for the core application
-	cvutil:		OpenCV library wrapper
-	debug:		Plays the role like Android Log.d()
-	vibe:		Foreground segmenter
-	blob:		Model for binary blobs
-	const:		Contains constants for the project
-	contour:	Contains Contour's definition
-	extractor:	Extract Blobs of Interest
-	tracker:	Keeps track of binary blobs
+	main:		Entry point for the core application.
+	cvutil:		OpenCV library wrapper.
+	debug:		Plays the role like Android Log.d().
+	vibe:		Foreground segmenter.
+	blob:		Model for binary blobs.
+	const:		Contains constants for the project.
+	contour:	Contains Contour's definition.
+	extractor:	Extract Blobs of Interest.
+	tracker:	Keeps track of binary blobs.
+	stat:		Retrieves data from expired blobs for learning purposes.
 
 General Architecture
 --------------------
@@ -75,24 +80,15 @@ General Architecture
 			|
 			v
 		-----------------
-		| Current Frame |--------------------------------
-		-----------------				|
-			|					|
-			|					|
-			v					|
-		---------------					|
-		| ViBE Module |<---------			|
-		---------------		|			|
-			|		|			|
-			|	 ----------------------------	|
-			-------->| Updated Background Model |<--|
-				 ----------------------------
-				    |
-				    |
-				    v
-		--------------------------
-		| Background Substraction|
-		--------------------------
+		| Current Frame |
+		-----------------
+			|
+			|
+			v
+		***************
+		* ViBE Module *
+		***************
+			|
 			|
 			v
 		---------------------	
@@ -100,9 +96,9 @@ General Architecture
 		---------------------
 			|
 			v
-		--------------------
-		| Extractor Module |<------------
-		--------------------		|
+		********************
+		* Extractor Module *<------------
+		********************		|
 			|			|
 			|			|
 			v			|
@@ -112,37 +108,23 @@ General Architecture
 			|			|
 			|			|
 			v			|
-		------------------        ---------------
-		| Tracker Module |------->| Stat Module |
-		------------------        ---------------
+		******************        ***************
+		* Tracker Module *------->* Stat Module *
+		******************        ***************
 			|
 			|
 			|
 			v
-		------------------
-		| Counter Module |
-		------------------
+		******************
+		* Counter Module *
+		******************
 
-Extractor
----------
 
-1. Overview
-
-	Input: a refined binary image - cv::Mat
-	Output: a vector of  BOI (Blobs of Interest)
-
-2. How:
-	Pick blobs based on criteria:
-		+ Minimum Area					[x]
-		+ Aspect Ratio (h / w of bounding box)		[x]
-		+ Extent (object area / bounding box area)	[?]
-
-	More on: http://docs.opencv.org/3.2.0/d1/d32/tutorial_py_contour_properties.html
-	(Will write this section later)
+Reference URLs
+--------------
+http://docs.opencv.org/3.2.0/d1/d32/tutorial_py_contour_properties.html
 
 Challenges
 ----------
-	Low-angle shadows			[_]
-		- Mean/Median color to filter out shadows [?]
-		- Stronger refinery		[_]
-		- Criteria Learning		[_]
+	Low-angle shadows	[_]
+	Criteria Learning	[_]
