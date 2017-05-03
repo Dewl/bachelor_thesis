@@ -30,9 +30,6 @@
 #include <list>
 #include "blob.h"
 
-typedef list<Blob>::iterator lBi;
-typedef list<Point>::const_reverse_iterator lPcri;
-
 using namespace std;
 
 class Counter {

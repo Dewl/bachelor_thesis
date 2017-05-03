@@ -17,42 +17,46 @@
  */
 
 /**
- * @file blob.cpp
- * @brief The implementation for blob.h
+ * @file stat.h
+ * @brief Retrieves data from blobs for the learning purposes.
+ *        This is still a prototype.
  * @author Khoi Hoang
  * @version 1.0
- * @date 2017-05-02
+ * @date 2017-05-03
  */
 
+
+#ifndef STAT_H
+#define STAT_H
+
 #include "blob.h"
-#include "cvutil.h"
-#include "const.h"
 
-Blob::Blob(const Contour& _contour)
-{
-	Point centroid = contourCentroid(_contour);
-	path.push_back(centroid);
-	int curArea = contourArea(_contour, false);
-	area.push_back(curArea);
-	bBox = boundingRect(_contour);
-	associated = false;
-	counted = false;
-	estimation = 1;
-}
+using namespace std;
 
-void Blob::associate(const Blob& _blob)
-{
-	path.push_back(_blob.path.back());
-	area.push_back(_blob.area.back());
-	bBox = _blob.bBox;
-}
+class Stat {
+	private:
+		/**
+		 * @brief Retrieves area data of the current expired blob.
+		 *
+		 * @param blob
+		 */
+		void processArea(Blob& blob);
 
-double Blob::distance(const Blob& _blob) const
-{
-	return norm(path.back() - _blob.path.back());
-}
+		/**
+		 * @brief Retrieves various data types of the
+		 * current expired blob.
+		 *
+		 * @param blob
+		 */
+		void processBlob(Blob& blob);
+	public:
+		/**
+		 * @brief Main functionality. Receives a list of expired blob
+		 * and retreives data from each of it.
+		 *
+		 * @param blobs
+		 */
+		void receive(list<Blob> blobs);
+};
 
-double Blob::dif(const Blob& _blob) const
-{
-	return distance(_blob);
-}
+#endif /* !STAT_H */

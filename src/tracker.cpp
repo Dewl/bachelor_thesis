@@ -4,11 +4,9 @@
 
 using namespace std;
 
-typedef list<Blob>::iterator lBi;
-typedef list<Blob>::const_iterator lBci;
-
 void Tracker::receive(list<Blob> in)
 {
+	expiredBlobs.clear();
 	for (lBi moIt = blobs.begin(); moIt != blobs.end(); ++moIt) {
 		double minDif = thres;
 		Blob* bestMatch = NULL;
@@ -28,6 +26,7 @@ void Tracker::receive(list<Blob> in)
 			moIt->associate(*bestMatch);
 			bestMatch->associated = true;
 		} else {
+			expiredBlobs.push_back(*moIt);
 			blobs.erase(moIt++);
 		}
 		// For each module blob

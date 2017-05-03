@@ -17,42 +17,36 @@
  */
 
 /**
- * @file blob.cpp
- * @brief The implementation for blob.h
+ * @file stat.cpp
+ * @brief The prototype implementation of Stat Module
  * @author Khoi Hoang
  * @version 1.0
- * @date 2017-05-02
+ * @date 2017-05-03
  */
 
-#include "blob.h"
-#include "cvutil.h"
-#include "const.h"
+#include <fstream>
+#include "stat.h"
 
-Blob::Blob(const Contour& _contour)
+using namespace std;
+
+void Stat::processBlob(Blob& blob)
 {
-	Point centroid = contourCentroid(_contour);
-	path.push_back(centroid);
-	int curArea = contourArea(_contour, false);
-	area.push_back(curArea);
-	bBox = boundingRect(_contour);
-	associated = false;
-	counted = false;
-	estimation = 1;
+	processArea(blob);
 }
 
-void Blob::associate(const Blob& _blob)
+void Stat::receive(list<Blob> blobs)
 {
-	path.push_back(_blob.path.back());
-	area.push_back(_blob.area.back());
-	bBox = _blob.bBox;
+	for (lBi it = blobs.begin(); it != blobs.end(); ++it) {
+		processBlob(*it);
+	}
 }
 
-double Blob::distance(const Blob& _blob) const
+void Stat::processArea(Blob& blob)
 {
-	return norm(path.back() - _blob.path.back());
-}
-
-double Blob::dif(const Blob& _blob) const
-{
-	return distance(_blob);
+	ofstream out;
+	out.open("area.log", ios_base::app);
+	for (list<int>::iterator it = blob.area.begin();
+			it != blob.area.end(); ++it) {
+		out << *it << endl;
+	}
 }

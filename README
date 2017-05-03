@@ -21,9 +21,7 @@ To do:
 		Tracker Module		[x]
 
 	Counter Module			[x]
-
 	Stat Module			[_]
-
 	People Estimation		[_]
 
 	Experiments:
@@ -34,13 +32,19 @@ To do:
 		Separating peole		[_]
 		People with stuffs		[_]
 		Mixing case			[_]
-
-
+	
 	Blob Properties Debug			[x]
-	Human Properties Callibration/Learning	[?]
+	Human Properties Learning		[?]
+	
+	Optimization				[_]
+
+	Testing:
+		Valgrind			[_]
+		Memory measurement		[_]
+		Speed				[_]
+
 	Implementation
-		Camera?			[_]
-		Accuracy?		[_]
+		IP Camera Integration		[_]
 
 Screenshot
 ----------
