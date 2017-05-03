@@ -21,8 +21,9 @@ To do:
 		Tracker Module		[x]
 
 	Counter Module			[x]
-	Stat Module			[_]
-	People Estimation		[_]
+	Stat Module			[x]
+	People Estimation (PE)		[_]
+	PE Testing			[_]
 
 	Experiments:
 		Single person			[x]
@@ -79,24 +80,15 @@ General Architecture
 			|
 			v
 		-----------------
-		| Current Frame |--------------------------------
-		-----------------				|
-			|					|
-			|					|
-			v					|
-		---------------					|
-		| ViBE Module |<---------			|
-		---------------		|			|
-			|		|			|
-			|	 ----------------------------	|
-			-------->| Updated Background Model |<--|
-				 ----------------------------
-				    |
-				    |
-				    v
-		--------------------------
-		| Background Substraction|
-		--------------------------
+		| Current Frame |
+		-----------------
+			|
+			|
+			v
+		***************
+		* ViBE Module *
+		***************
+			|
 			|
 			v
 		---------------------	
@@ -104,9 +96,9 @@ General Architecture
 		---------------------
 			|
 			v
-		--------------------
-		| Extractor Module |<------------
-		--------------------		|
+		********************
+		* Extractor Module *<------------
+		********************		|
 			|			|
 			|			|
 			v			|
@@ -116,16 +108,16 @@ General Architecture
 			|			|
 			|			|
 			v			|
-		------------------        ---------------
-		| Tracker Module |------->| Stat Module |
-		------------------        ---------------
+		******************        ***************
+		* Tracker Module *------->* Stat Module *
+		******************        ***************
 			|
 			|
 			|
 			v
-		------------------
-		| Counter Module |
-		------------------
+		******************
+		* Counter Module *
+		******************
 
 Extractor
 ---------
