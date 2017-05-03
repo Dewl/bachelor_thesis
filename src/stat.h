@@ -49,6 +49,20 @@ class Stat {
 		 * @param blob
 		 */
 		void processBlob(Blob& blob);
+
+		/**
+		 * @brief Retrieves ratio data of the current expired blob.
+		 *
+		 * @param blob
+		 */
+		void processRatio(Blob& blob);
+
+		/**
+		 * @brief Retrieves speed data of the current expired blob.
+		 *
+		 * @param blob
+		 */
+		void processSpeed(Blob& blob);
 	public:
 		/**
 		 * @brief Main functionality. Receives a list of expired blob

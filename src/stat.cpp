@@ -32,6 +32,8 @@ using namespace std;
 void Stat::processBlob(Blob& blob)
 {
 	processArea(blob);
+	processRatio(blob);
+	processSpeed(blob);
 }
 
 void Stat::receive(list<Blob> blobs)
@@ -47,6 +49,26 @@ void Stat::processArea(Blob& blob)
 	out.open("area.log", ios_base::app);
 	for (list<int>::iterator it = blob.area.begin();
 			it != blob.area.end(); ++it) {
+		out << *it << endl;
+	}
+}
+
+void Stat::processRatio(Blob& blob)
+{
+	ofstream out;
+	out.open("ratio.log", ios_base::app);
+	for (list<double>::iterator it = blob.ratio.begin();
+			it != blob.ratio.end(); ++it) {
+		out << *it << endl;
+	}
+}
+
+void Stat::processSpeed(Blob& blob)
+{
+	ofstream out;
+	out.open("speed.log", ios_base::app);
+	for (list<int>::iterator it = blob.speed.begin();
+			it != blob.speed.end(); ++it) {
 		out << *it << endl;
 	}
 }

@@ -91,3 +91,8 @@ void drawVerticalLine(Mat& canvas, int x)
 	int height = canvas.rows;
 	line(canvas, Point(x, 0), Point(x, height), COLOR_CYAN, 1);
 }
+
+double euclideanDistance(const Point& point1, const Point& point2)
+{
+	return norm(point1 - point2);
+}

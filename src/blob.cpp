@@ -35,6 +35,7 @@ Blob::Blob(const Contour& _contour)
 	int curArea = contourArea(_contour, false);
 	area.push_back(curArea);
 	bBox = boundingRect(_contour);
+	ratio.push_back(rectRatio(bBox));
 	associated = false;
 	counted = false;
 	estimation = 1;
@@ -42,14 +43,17 @@ Blob::Blob(const Contour& _contour)
 
 void Blob::associate(const Blob& _blob)
 {
+	double dist = distance(_blob);
+	speed.push_back(dist);
 	path.push_back(_blob.path.back());
 	area.push_back(_blob.area.back());
 	bBox = _blob.bBox;
+	ratio.push_back(_blob.ratio.back());
 }
 
 double Blob::distance(const Blob& _blob) const
 {
-	return norm(path.back() - _blob.path.back());
+	return euclideanDistance(path.back(), _blob.path.back());
 }
 
 double Blob::dif(const Blob& _blob) const

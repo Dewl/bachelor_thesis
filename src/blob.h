@@ -62,6 +62,18 @@ class Blob {
 		Rect bBox;
 
 		/**
+		 * @brief List of ratios of the current blob.
+		 */
+		list<double> ratio;
+
+		/**
+		 * @brief List of speeds of the current blob.
+		 * Speed is the distance between centroids of two
+		 * consecutive frames.
+		 */
+		list<int> speed;
+
+		/**
 		 * @brief A flag to determine if the current blob is associated
 		 * with one of the blob from Tracker Module.
 		 */

@@ -126,4 +126,14 @@ double contourBoundingRatio(const Contour& _contour);
  */
 void drawVerticalLine(Mat& canvas, int x);
 
+/**
+ * @brief Calculate Euclidean distance between two points.
+ *
+ * @param point1
+ * @param point2
+ *
+ * @return 
+ */
+double euclideanDistance(const Point& point1, const Point& point2);
+
 #endif /* !MATUTIL_H */

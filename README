@@ -21,7 +21,12 @@ To do:
 		Tracker Module		[x]
 
 	Counter Module			[x]
+	
 	Stat Module			[x]
+		Centroid Dist.		[x]
+		Area			[x]
+		Ratio			[x]
+
 	People Estimation (PE)		[_]
 
 	Testing:
@@ -44,7 +49,7 @@ To do:
 		Speed				[_]
 
 	Implementation
-		IP Camera Integration		[_]
+		IP Camera Integration		[x]
 
 Screenshot
 ----------
