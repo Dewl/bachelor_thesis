@@ -101,14 +101,6 @@ void processVideo(char *src)
 
 		refineBinaryImage(foreground);
 
-		blobs = extractor.extractBOI(foreground);
-		tracker.receive(blobs);
-		counter.receive(tracker.blobs);
-		stat.receive(tracker.expiredBlobs);
-
-		blobDebug(origin, tracker.blobs, true, 220, 420);
-		counterDebug(origin, counter);
-
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);
 
