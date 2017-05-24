@@ -64,42 +64,49 @@ void processVideo(char *src, unordered_map<string, string> config)
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
 
+	bool play = true;
+
 	while (true) {
-		if (!cap.read(origin)) {
-			break;
-		}
+		if (play) {
+			if (!cap.read(origin)) {
+				break;
+			}
 
-		if (!init) {
-			init = true;
-			foreground = Mat(origin.rows, origin.cols, CV_8UC1);
-			model = (vibeModel_Sequential_t*)
-				libvibeModel_Sequential_New();
+			if (!init) {
+				init = true;
+				foreground = Mat(origin.rows, origin.cols, CV_8UC1);
+				model = (vibeModel_Sequential_t*)
+					libvibeModel_Sequential_New();
 
-			libvibeModel_Sequential_SetMatchingThreshold(model,
-					config_GetInt(config, "threshold"));
+				libvibeModel_Sequential_SetMatchingThreshold(model,
+						config_GetInt(config, "threshold"));
 
-			libvibeModel_Sequential_AllocInit_8u_C3R(model,
+				libvibeModel_Sequential_AllocInit_8u_C3R(model,
+						origin.data,
+						origin.cols,
+						origin.rows);
+			}
+
+			libvibeModel_Sequential_Segmentation_8u_C3R(model,
 					origin.data,
-					origin.cols,
-					origin.rows);
+					foreground.data);
+			libvibeModel_Sequential_Update_8u_C3R(model,
+					origin.data,
+					foreground.data);
+
+			refineBinaryImage(foreground,
+					config_GetInt(config, "median"),
+					config_GetInt(config, "erode"),
+					config_GetInt(config, "dilate"));
+
+			imshow("Origin", origin);
+			imshow("Foreground", foreground);
+
 		}
-
-		libvibeModel_Sequential_Segmentation_8u_C3R(model,
-				origin.data,
-				foreground.data);
-		libvibeModel_Sequential_Update_8u_C3R(model,
-				origin.data,
-				foreground.data);
-
-		refineBinaryImage(foreground,
-				config_GetInt(config, "median"),
-				config_GetInt(config, "erode"),
-				config_GetInt(config, "dilate"));
-
-		imshow("Origin", origin);
-		imshow("Foreground", foreground);
-
-		if (waitKey(22) == 'q') {
+		char wkey = waitKey(config_GetInt(config, "speed"));
+		if (wkey == 'p') {
+			play = !play;
+		} else if (wkey == 'q') {
 			break;
 		}
 	}
