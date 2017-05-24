@@ -32,67 +32,9 @@
 
 using namespace std;
 
-void refineBinaryImage(Mat& binImage)
+void refineBinaryImage(Mat& binImage, int median_blur, int _erode, int _dilate)
 {
-	medianBlur(binImage, binImage, 5);
-	erode(binImage, binImage, Mat(), Point(-1, -1), 3);
-	dilate(binImage, binImage, Mat(), Point(-1, -1), 3);
-}
-
-Point rectCentroid(const Rect& rect)
-{
-	Point ret = Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
-	return ret;
-}
-
-void drawRect(Mat& canvas, const Rect& rect)
-{
-	rectangle(canvas, rect.tl(), rect.br(), COLOR_GREEN, 2);
-}
-
-void drawPoint(Mat& canvas, const Point& point)
-{
-	circle(canvas, point, 0,CV_RGB(255,0,0),3);
-}
-
-void drawTextRect(Mat& canvas, const string& str, const Rect& rect)
-{
-	putText(canvas, str, Point(rect.x, rect.y),
-			FONT_HERSHEY_COMPLEX_SMALL, 0.8,
-			COLOR_RED, 1, CV_AA);
-}
-
-void drawText(Mat& canvas, const string& str, const Point& point)
-{
-	putText(canvas, str, point,
-			FONT_HERSHEY_COMPLEX_SMALL, 1.0,
-			COLOR_YELLOW, 1, CV_AA);
-}
-
-Point contourCentroid(const Contour& _contour)
-{
-	Moments mu = moments(_contour, false);
-	return Point2f(mu.m10/mu.m00 , mu.m01/mu.m00);
-}
-
-double rectRatio(const Rect& rect)
-{
-	double ret = (double) rect.height / rect.width;
-	return ret <= 1.0 ? ret : (double) 1.0 / ret;
-}
-
-double contourBoundingRatio(const Contour& _contour)
-{
-	return rectRatio(boundingRect(_contour));
-}
-
-void drawVerticalLine(Mat& canvas, int x)
-{
-	int height = canvas.rows;
-	line(canvas, Point(x, 0), Point(x, height), COLOR_CYAN, 1);
-}
-
-double euclideanDistance(const Point& point1, const Point& point2)
-{
-	return norm(point1 - point2);
+	medianBlur(binImage, binImage, median_blur);
+	erode(binImage, binImage, Mat(), Point(-1, -1), _erode);
+	dilate(binImage, binImage, Mat(), Point(-1, -1), _dilate);
 }

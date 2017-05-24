@@ -35,32 +35,27 @@
 
 #include "vibe.h"
 #include "cvutil.h"
-#include "extractor.h"
-#include "debug.h"
-#include "const.h"
-#include "contour.h"
-#include "tracker.h"
-#include "counter.h"
-#include "stat.h"
+#include "config.h"
 
 using namespace std;
 using namespace cv;
 
-void processVideo(char *src);
+void processVideo(char *src, unordered_map<string, string> config);
 
 int main(int args, char **argv)
 {
-	processVideo(argv[1]);
+	unordered_map<string, string> config = config_Read(argv[2]);
+	processVideo(argv[1], config);
 	destroyAllWindows();
 	return (EXIT_SUCCESS);
 }
 
-void processVideo(char *src)
+void processVideo(char *src, unordered_map<string, string> config)
 {
 	VideoCapture cap(src);
-
 	if (!cap.isOpened()) {
-		error("ERROR: Unable to open video source.");
+		cerr << ("ERROR: Unable to open video source.") << endl;
+		exit(EXIT_FAILURE);
 	}
 
 	Mat frame;
@@ -68,13 +63,6 @@ void processVideo(char *src)
 
 	vibeModel_Sequential_t *model = NULL;	
 	bool init = false;
-	
-	Tracker tracker;
-	Extractor extractor(750, 0.2, true, 220, 420);
-	Counter counter(true, 240, 400);
-	Stat stat;
-
-	list<Blob> blobs;
 
 	while (true) {
 		if (!cap.read(origin)) {
@@ -86,6 +74,10 @@ void processVideo(char *src)
 			foreground = Mat(origin.rows, origin.cols, CV_8UC1);
 			model = (vibeModel_Sequential_t*)
 				libvibeModel_Sequential_New();
+
+			libvibeModel_Sequential_SetMatchingThreshold(model,
+					config_GetInt(config, "threshold"));
+
 			libvibeModel_Sequential_AllocInit_8u_C3R(model,
 					origin.data,
 					origin.cols,
@@ -99,7 +91,10 @@ void processVideo(char *src)
 				origin.data,
 				foreground.data);
 
-		refineBinaryImage(foreground);
+		refineBinaryImage(foreground,
+				config_GetInt(config, "median"),
+				config_GetInt(config, "erode"),
+				config_GetInt(config, "dilate"));
 
 		imshow("Origin", origin);
 		imshow("Foreground", foreground);
