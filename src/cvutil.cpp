@@ -26,6 +26,7 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
 #include "cvutil.h"
 #include "const.h"
@@ -37,4 +38,10 @@ void refineBinaryImage(Mat& binImage, int median_blur, int _erode, int _dilate)
 	medianBlur(binImage, binImage, median_blur);
 	erode(binImage, binImage, Mat(), Point(-1, -1), _erode);
 	dilate(binImage, binImage, Mat(), Point(-1, -1), _dilate);
+}
+
+int dist(int x1, int y1, int x2, int y2)
+{
+	double ret = cv::norm(Point(x1, y1) - Point(x2, y2));
+	return (int) ret;
 }

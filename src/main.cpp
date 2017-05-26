@@ -36,17 +36,30 @@
 #include "vibe.h"
 #include "cvutil.h"
 #include "config.h"
+#include "sensor.h"
+#include "drawer.h"
 
 using namespace std;
 using namespace cv;
 
+// Global config
+unordered_map<string, string> config;
+Sensor *sensor;
+char gui_flag = 'w';
+
+// Prototypes
 void processVideo(char *src, unordered_map<string, string> config);
+void onMouse(int event, int x, int y, int flags, void* userdata);
 
 int main(int args, char **argv)
 {
-	unordered_map<string, string> config = config_Read(argv[2]);
+	config = config_Read(argv[2]);
+	namedWindow("Origin", WINDOW_AUTOSIZE);
+	namedWindow("Foreground", WINDOW_AUTOSIZE);
+	setMouseCallback("Origin", onMouse, NULL);
 	processVideo(argv[1], config);
 	destroyAllWindows();
+	config_Write(config, argv[2]);
 	return (EXIT_SUCCESS);
 }
 
@@ -61,8 +74,15 @@ void processVideo(char *src, unordered_map<string, string> config)
 	Mat frame;
 	Mat origin, foreground;
 
-	vibeModel_Sequential_t *model = NULL;	
+	vibeModel_Sequential_t *model = NULL;
 	bool init = false;
+
+	sensor = sensor_Alloc(
+			config_GetInt(config, "sensor_x", 100),
+			config_GetInt(config, "sensor_y", 100),
+			config_GetInt(config, "sensor_h", 40),
+			config_GetInt(config, "sensor_w", 100),
+			config_GetInt(config, "sensor_str", 8));
 
 	bool play = true;
 
@@ -79,7 +99,7 @@ void processVideo(char *src, unordered_map<string, string> config)
 					libvibeModel_Sequential_New();
 
 				libvibeModel_Sequential_SetMatchingThreshold(model,
-						config_GetInt(config, "threshold"));
+						config_GetInt(config, "threshold", 32));
 
 				libvibeModel_Sequential_AllocInit_8u_C3R(model,
 						origin.data,
@@ -95,23 +115,47 @@ void processVideo(char *src, unordered_map<string, string> config)
 					foreground.data);
 
 			refineBinaryImage(foreground,
-					config_GetInt(config, "median"),
-					config_GetInt(config, "erode"),
-					config_GetInt(config, "dilate"));
+					config_GetInt(config, "median", 5),
+					config_GetInt(config, "erode", 3),
+					config_GetInt(config, "dilate", 3));
+
+			drawer_DrawSensor(origin, sensor);
 
 			imshow("Origin", origin);
 			imshow("Foreground", foreground);
 
 		}
-		char wkey = waitKey(config_GetInt(config, "speed"));
+		char wkey = waitKey(config_GetInt(config, "speed", 33));
 		if (wkey == 'p') {
 			play = !play;
 		} else if (wkey == 'q') {
 			break;
+		} else if (wkey == 'w' || wkey == 'h'){
+			gui_flag = wkey;
 		}
 	}
 
 	cap.release();
+	sensor_Free(sensor);
 	libvibeModel_Sequential_Free(model);
 }
 
+void onMouse(int event, int x, int y, int flags, void* userdata)
+{
+	if (event == EVENT_LBUTTONDOWN) {
+		sensor->x = x;
+		sensor->y = y;
+		config_SetInt(config, "sensor_x", x);
+		config_SetInt(config, "sensor_y", y);
+	} else if (event == EVENT_RBUTTONDOWN) {
+		if (gui_flag == 'w') {
+			int d = abs(sensor->x - x);
+			config_SetInt(config, "sensor_w", d);
+			sensor->w = d;
+		} else if (gui_flag == 'h') {
+			int d = abs(sensor->y - y);
+			config_SetInt(config, "sensor_h", d);
+			sensor->h = d;
+		}
+	}
+}

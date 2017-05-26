@@ -5,5 +5,4 @@
 #
 # Distributed under terms of the MIT license.
 #
-
-bin/main ~/Videos/benh_vien_trang_bom.avi ~/Documents/config.txt
+bin/main ~/Videos/out.avi ~/Documents/config.txt
