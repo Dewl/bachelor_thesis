@@ -1,35 +1,35 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif 
-
 /**
  * This virtual sensor is applied for horizontal people flow
  */
+#include <opencv/cv.h>
 
-typedef unsigned char uint8;
+using namespace std;
+using namespace cv;
 
 typedef struct _Sensor {
 	int x;
 	int y;
 	int h;
 	int w;
-	int no_str;
-	uint8 *str_state;
-	uint8 **cell_state;
-	uint8 **cell_pre_state;
+	size_t no_str;
+	bool *str_state;
+	bool **cell_state;
+	bool **cell_pre_state;
+	int _divx;
+	int _cell_area;
+	int _xstart;
+	int _xend;
+	int _ystart;
+	int _yend;
+
 } Sensor;
 
 Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str);
 void sensor_Free(Sensor *_s);
-
 void sensor_GetRect(Sensor* _s, int _x, int _y, int* ret);
-
-#ifdef __cplusplus
-}
-#endif
+void sensor_Feed(Sensor* _s, const Mat& data);
 
 #endif /* !SENSOR_H */

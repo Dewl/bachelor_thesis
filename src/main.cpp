@@ -72,7 +72,7 @@ void processVideo(char *src, unordered_map<string, string> config)
 	}
 
 	Mat frame;
-	Mat origin, foreground;
+	Mat origin, foreground, croppedOrigin;
 
 	vibeModel_Sequential_t *model = NULL;
 	bool init = false;
@@ -84,6 +84,11 @@ void processVideo(char *src, unordered_map<string, string> config)
 			config_GetInt(config, "sensor_w", 100),
 			config_GetInt(config, "sensor_str", 8));
 
+	Rect sensorRect(
+			Point(sensor->_xstart, sensor->_ystart),
+			Point(sensor->_xend, sensor->_yend)
+			);
+
 	bool play = true;
 
 	while (true) {
@@ -92,9 +97,12 @@ void processVideo(char *src, unordered_map<string, string> config)
 				break;
 			}
 
+		Mat tmp = origin(sensorRect);
+		tmp.copyTo(croppedOrigin);
+
 			if (!init) {
 				init = true;
-				foreground = Mat(origin.rows, origin.cols, CV_8UC1);
+				foreground = Mat(croppedOrigin.rows, croppedOrigin.cols, CV_8UC1);
 				model = (vibeModel_Sequential_t*)
 					libvibeModel_Sequential_New();
 
@@ -102,16 +110,16 @@ void processVideo(char *src, unordered_map<string, string> config)
 						config_GetInt(config, "threshold", 32));
 
 				libvibeModel_Sequential_AllocInit_8u_C3R(model,
-						origin.data,
-						origin.cols,
-						origin.rows);
+						croppedOrigin.data,
+						croppedOrigin.cols,
+						croppedOrigin.rows);
 			}
 
 			libvibeModel_Sequential_Segmentation_8u_C3R(model,
-					origin.data,
+					croppedOrigin.data,
 					foreground.data);
 			libvibeModel_Sequential_Update_8u_C3R(model,
-					origin.data,
+					croppedOrigin.data,
 					foreground.data);
 
 			refineBinaryImage(foreground,

@@ -13,8 +13,7 @@ void drawer_DrawSensor(Mat& canvas, Sensor* _s)
 			COLOR_GREEN
 			);
 
-	int divx = _s->w / _s->no_str;
-	for (int i = _s->x - _s->w; i <= _s->x + _s->w; i += divx) {
+	for (int i = _s->x - _s->w; i <= _s->x + _s->w; i += _s->_divx) {
 		line(
 				canvas,
 				Point(i, _s->y - _s->h),
@@ -23,8 +22,8 @@ void drawer_DrawSensor(Mat& canvas, Sensor* _s)
 			);
 	}
 
-	for (int i = 0; i < _s->no_str; ++i) {
-		for (int j = 0; j < 2; ++j) {
+	for (size_t i = 0; i < _s->no_str; ++i) {
+		for (size_t j = 0; j < 2; ++j) {
 			int rectPoints[4];
 			sensor_GetRect(_s, i, j, rectPoints);
 			Rect rect(

@@ -24,8 +24,9 @@ config:
 
 sensor:
 	mkdir -p obj/
-	gcc $(OPT) -c src/sensor.c
+	g++ $(OPT) $(OPT_CPP) -c src/sensor.cpp
 	mv *.o obj/
+
 drawer:
 	mkdir -p obj/
 	g++ $(OPT) $(OPT_CPP) -c src/drawer.cpp
