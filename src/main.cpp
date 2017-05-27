@@ -45,11 +45,13 @@ using namespace cv;
 // Global config
 unordered_map<string, string> config;
 Sensor *sensor;
-char gui_flag = 'w';
+Mat origin, foreground, croppedOrigin;
+char gui_flag = '0';
 
 // Prototypes
 void processVideo(char *src, unordered_map<string, string> config);
 void onMouse(int event, int x, int y, int flags, void* userdata);
+void onMouse2(int event, int x, int y, int flags, void* userdata);
 
 int main(int args, char **argv)
 {
@@ -57,6 +59,7 @@ int main(int args, char **argv)
 	namedWindow("Origin", WINDOW_AUTOSIZE);
 	namedWindow("Foreground", WINDOW_AUTOSIZE);
 	setMouseCallback("Origin", onMouse, NULL);
+	setMouseCallback("Foreground", onMouse2, NULL);
 	processVideo(argv[1], config);
 	destroyAllWindows();
 	config_Write(config, argv[2]);
@@ -72,7 +75,6 @@ void processVideo(char *src, unordered_map<string, string> config)
 	}
 
 	Mat frame;
-	Mat origin, foreground, croppedOrigin;
 
 	vibeModel_Sequential_t *model = NULL;
 	bool init = false;
@@ -82,11 +84,8 @@ void processVideo(char *src, unordered_map<string, string> config)
 			config_GetInt(config, "sensor_y", 100),
 			config_GetInt(config, "sensor_h", 40),
 			config_GetInt(config, "sensor_w", 100),
-			config_GetInt(config, "sensor_str", 8));
-
-	Rect sensorRect(
-			Point(sensor->_xstart, sensor->_ystart),
-			Point(sensor->_xend, sensor->_yend)
+			config_GetInt(config, "sensor_str", 8),
+			config_GetDouble(config, "sensor_thr", 0.3)
 			);
 
 	bool play = true;
@@ -97,8 +96,12 @@ void processVideo(char *src, unordered_map<string, string> config)
 				break;
 			}
 
-		Mat tmp = origin(sensorRect);
-		tmp.copyTo(croppedOrigin);
+			Rect sensorRect(
+					Point(sensor->_xstart, sensor->_ystart),
+					Point(sensor->_xend, sensor->_yend)
+					);
+			Mat tmp = origin(sensorRect);
+			tmp.copyTo(croppedOrigin);
 
 			if (!init) {
 				init = true;
@@ -127,6 +130,7 @@ void processVideo(char *src, unordered_map<string, string> config)
 					config_GetInt(config, "erode", 3),
 					config_GetInt(config, "dilate", 3));
 
+			sensor_Feed(sensor, foreground);
 			drawer_DrawSensor(origin, sensor);
 
 			imshow("Origin", origin);
@@ -166,4 +170,11 @@ void onMouse(int event, int x, int y, int flags, void* userdata)
 			sensor->h = d;
 		}
 	}
+}
+
+void onMouse2(int event, int x, int y, int flags, void* userdata)
+{
+	if (event == EVENT_LBUTTONDOWN) {
+		printf("debug:main: foreground[%d][%d] = %d\n", y, x, foreground.at<uint8_t>(y, x));
+	} 
 }

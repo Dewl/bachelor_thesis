@@ -14,7 +14,7 @@ typedef struct _Sensor {
 	int y;
 	int h;
 	int w;
-	size_t no_str;
+	int no_str;
 	bool *str_state;
 	bool **cell_state;
 	bool **cell_pre_state;
@@ -24,10 +24,11 @@ typedef struct _Sensor {
 	int _xend;
 	int _ystart;
 	int _yend;
+	double _cell_thr;
 
 } Sensor;
 
-Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str);
+Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str, double _thr);
 void sensor_Free(Sensor *_s);
 void sensor_GetRect(Sensor* _s, int _x, int _y, int* ret);
 void sensor_Feed(Sensor* _s, const Mat& data);

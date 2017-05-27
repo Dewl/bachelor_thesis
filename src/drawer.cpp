@@ -22,8 +22,8 @@ void drawer_DrawSensor(Mat& canvas, Sensor* _s)
 			);
 	}
 
-	for (size_t i = 0; i < _s->no_str; ++i) {
-		for (size_t j = 0; j < 2; ++j) {
+	for (int i = 0; i < _s->no_str; ++i) {
+		for (int j = 0; j < 2; ++j) {
 			int rectPoints[4];
 			sensor_GetRect(_s, i, j, rectPoints);
 			Rect rect(

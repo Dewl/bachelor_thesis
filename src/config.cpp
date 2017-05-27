@@ -1,6 +1,7 @@
 #include "config.h"
 #include <fstream>
-#include <assert.h>
+#include <sstream>
+#include <iostream>
 
 using namespace std;
 
@@ -24,8 +25,6 @@ void config_Write(unordered_map<string, string>& config,
 {
 	ofstream out(fname);
 
-	assert(out.is_open());
-
 	for (auto it = config.begin(); it != config.end(); ++it) {
 		out << it->first << " " << it->second << endl;
 	}
@@ -41,8 +40,31 @@ int config_GetInt(unordered_map<string, string>& config,
 	return stoi(config[key]);
 }
 
+
+int config_GetDouble(unordered_map<string, string>& config,
+		const string& key, double def)
+{
+	if (config[key] == "") {
+		config[key] = to_string(def);
+	}
+
+	stringstream convert;
+	convert << config[key] << endl;
+
+	double ret;
+	convert >> ret;
+
+	return ret;
+}
+
 void config_SetInt(unordered_map<string, string>& config,
 		const string& key, int val)
+{
+	config[key] = to_string(val);
+}
+
+void config_SetDouble(unordered_map<string, string>& config,
+		const string& key, double val)
 {
 	config[key] = to_string(val);
 }
