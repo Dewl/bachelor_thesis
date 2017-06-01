@@ -13,7 +13,7 @@ void drawer_DrawSensor(Mat& canvas, Sensor* _s)
 			COLOR_GREEN
 			);
 
-	for (int i = _s->x - _s->w; i <= _s->x + _s->w; i += _s->_divx) {
+	for (int i = _s->x - _s->w; i <= _s->x + _s->w; i += _s->divx) {
 		line(
 				canvas,
 				Point(i, _s->y - _s->h),

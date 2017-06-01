@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cstdint>
 #include <cstdio>
+#include <vector>
 
 using namespace std;
 
@@ -32,15 +33,15 @@ Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str, double _thr)
 		}
 	}
 
-	ret->_divx = ret->w / ret->no_str;
-	ret->_cell_area = ret->_divx * ret->h;
-	ret->_xstart = ret->x - ret->w;
-	ret->_xend = ret->x + ret->w;
-	ret->_ystart = ret->y - ret->h;
-	ret->_yend = ret->y + ret->h;
+	ret->divx = ret->w / ret->no_str;
+	ret->cell_area = ret->divx * ret->h;
+	ret->xstart = ret->x - ret->w;
+	ret->xend = ret->x + ret->w;
+	ret->ystart = ret->y - ret->h;
+	ret->yend = ret->y + ret->h;
 	
-	//double tmp_thr = _thr * (double) (ret->h * ret->_divx);
-	ret->_cell_thr = 610;
+	//double tmp_thr = _thr * (double) (ret->h * ret->divx);
+	ret->cell_thr = 610;
 
 	return ret;
 }
@@ -72,29 +73,15 @@ void sensor_GetRect(Sensor* _s, int _x, int _y, int* ret)
 
 void sensor_Feed(Sensor* _s, const Mat& data)
 {
-	int cell_count[2][_s->no_str];
-	for (int i = 0; i < 2; ++i) {
-		for (int j = 0; j < _s->no_str; ++j) {
-			cell_count[i][j] = 0;
-		}
-	}
-
-	for (int i = 0; i < data.rows; ++i) {
-		for (int j = 0; j < data.cols; ++j) {
-			if (data.at<uint8_t>(i, j)) {
-				int cellx = j / _s->_divx;
-				int celly = i / _s->h;
-				cell_count[celly][cellx] += 1;
-			}
-		}
-	}
-
-	for (int i = 0; i < 2; ++i) {
-		for (int j = 0; j < _s->no_str; ++j) {
-			if (cell_count[i][j] >= _s->_cell_thr) {
-				_s->cell_state[j][i] = true;
-			} else {
-				_s->cell_state[j][i] = false;
+	vector<vector<int> > cell_count(_s->no_str * 2, vector<int>(2));
+	for (int i = 0; i < data.cols; ++i) {
+		for (int j = 0; j < data.rows; ++j) {
+			if (data.at<uint8_t>(j, i)) {
+				int x = i / _s->divx;
+				int y = j / _s->h;
+				cell_count[x][y] += 1;
+				//_s->cell_state[x][y] =
+					//cell_count[x][y] >= _s->cell_thr;
 			}
 		}
 	}

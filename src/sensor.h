@@ -18,13 +18,13 @@ typedef struct _Sensor {
 	bool *str_state;
 	bool **cell_state;
 	bool **cell_pre_state;
-	int _divx;
-	int _cell_area;
-	int _xstart;
-	int _xend;
-	int _ystart;
-	int _yend;
-	double _cell_thr;
+	int divx;
+	int cell_area;
+	int xstart;
+	int xend;
+	int ystart;
+	int yend;
+	double cell_thr;
 
 } Sensor;
 

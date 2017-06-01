@@ -97,8 +97,8 @@ void processVideo(char *src, unordered_map<string, string> config)
 			}
 
 			Rect sensorRect(
-					Point(sensor->_xstart, sensor->_ystart),
-					Point(sensor->_xend, sensor->_yend)
+					Point(sensor->xstart, sensor->ystart),
+					Point(sensor->xend, sensor->yend)
 					);
 			Mat tmp = origin(sensorRect);
 			tmp.copyTo(croppedOrigin);
