@@ -22,7 +22,7 @@ void drawer_DrawSensor(Mat& canvas, Sensor* _s)
 			);
 	}
 
-	for (int i = 0; i < _s->no_str; ++i) {
+	for (int i = 0; i < _s->no_str * 2; ++i) {
 		for (int j = 0; j < 2; ++j) {
 			int rectPoints[4];
 			sensor_GetRect(_s, i, j, rectPoints);
@@ -31,8 +31,8 @@ void drawer_DrawSensor(Mat& canvas, Sensor* _s)
 					Point(rectPoints[2], rectPoints[3])
 					);
 			if (_s->cell_state[i][j]) {
-				drawer_FillRectColor(canvas, rect, COLOR_RED);
-			} else if (_s->cell_pre_state[i][j]) {
+				drawer_FillRectColor(canvas, rect, COLOR_CYAN);
+			} if (_s->cell_pre_state[i][j]) {
 				drawer_FillRectColor(canvas, rect, COLOR_YELLOW);
 			}
 		}
@@ -44,6 +44,6 @@ static void drawer_FillRectColor(Mat& _canvas,
 {
 	Mat roi = _canvas(_area);
     Mat color(roi.size(), CV_8UC3,_color); 
-    double alpha = 0.15;
+    double alpha = 0.4;
     addWeighted(color, alpha, roi, 1.0 - alpha , 0.0, roi);
 }

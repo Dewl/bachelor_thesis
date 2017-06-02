@@ -47,6 +47,7 @@ unordered_map<string, string> config;
 Sensor *sensor;
 Mat origin, foreground, croppedOrigin;
 char gui_flag = '0';
+int speed = 5;
 
 // Prototypes
 void processVideo(char *src, unordered_map<string, string> config);
@@ -85,7 +86,7 @@ void processVideo(char *src, unordered_map<string, string> config)
 			config_GetInt(config, "sensor_h", 40),
 			config_GetInt(config, "sensor_w", 100),
 			config_GetInt(config, "sensor_str", 8),
-			config_GetDouble(config, "sensor_thr", 0.3)
+			0.2
 			);
 
 	bool play = true;
@@ -137,13 +138,17 @@ void processVideo(char *src, unordered_map<string, string> config)
 			imshow("Foreground", foreground);
 
 		}
-		char wkey = waitKey(config_GetInt(config, "speed", 33));
+		char wkey = waitKey(speed);
 		if (wkey == 'p') {
 			play = !play;
 		} else if (wkey == 'q') {
 			break;
 		} else if (wkey == 'w' || wkey == 'h'){
 			gui_flag = wkey;
+		} else if (wkey == '1') {
+			speed = 28;
+		} else if (wkey == '2') {
+			speed = 500;
 		}
 	}
 
