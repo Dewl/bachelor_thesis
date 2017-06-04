@@ -12,6 +12,7 @@ unordered_map<string, string> config_Read(const char *fname)
 
 	string key, val;
 	while (in >> key >> val) {
+		cout << "debug:config:key=" << key <<", val=" << val << endl;
 		ret.insert(make_pair<string, string>
 				((string) key, (string) val));
 	}
@@ -41,7 +42,7 @@ int config_GetInt(unordered_map<string, string>& config,
 }
 
 
-int config_GetDouble(unordered_map<string, string>& config,
+double config_GetDouble(unordered_map<string, string>& config,
 		const string& key, double def)
 {
 	if (config[key] == "") {

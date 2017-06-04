@@ -47,34 +47,36 @@ unordered_map<string, string> config;
 Sensor *sensor;
 Mat origin, foreground, croppedOrigin;
 char gui_flag = '0';
-int speed = 5;
+uint32_t no_frame = 0;
+int speed = 10;
 
 // Prototypes
-void processVideo(char *src, unordered_map<string, string> config);
+void processVideo(char *src, unordered_map<string, string> config, const char *fname);
 void onMouse(int event, int x, int y, int flags, void* userdata);
 void onMouse2(int event, int x, int y, int flags, void* userdata);
 
 int main(int args, char **argv)
 {
 	config = config_Read(argv[2]);
-	namedWindow("Origin", WINDOW_AUTOSIZE);
-	namedWindow("Foreground", WINDOW_AUTOSIZE);
-	setMouseCallback("Origin", onMouse, NULL);
-	setMouseCallback("Foreground", onMouse2, NULL);
-	processVideo(argv[1], config);
+	//namedWindow("Origin", WINDOW_AUTOSIZE);
+	//namedWindow("Foreground", WINDOW_AUTOSIZE);
+	//setMouseCallback("Origin", onMouse, NULL);
+	//setMouseCallback("Foreground", onMouse2, NULL);
+	processVideo(argv[1], config, argv[3]);
 	destroyAllWindows();
 	config_Write(config, argv[2]);
 	return (EXIT_SUCCESS);
 }
 
-void processVideo(char *src, unordered_map<string, string> config)
+void processVideo(char *src, unordered_map<string, string> config, const char *fname)
 {
 	VideoCapture cap(src);
 	if (!cap.isOpened()) {
 		cerr << ("ERROR: Unable to open video source.") << endl;
 		exit(EXIT_FAILURE);
 	}
-
+	//int total_frames = cap.get(CV_CAP_PROP_FRAME_COUNT);
+	//int cur_frame = 0;
 	Mat frame;
 
 	vibeModel_Sequential_t *model = NULL;
@@ -86,8 +88,13 @@ void processVideo(char *src, unordered_map<string, string> config)
 			config_GetInt(config, "sensor_h", 40),
 			config_GetInt(config, "sensor_w", 100),
 			config_GetInt(config, "sensor_str", 8),
-			0.2
+			config_GetDouble(config, "sensor_cell_ratio", 0.3),
+			config_GetDouble(config, "sensor_ratio", 5)
 			);
+
+	int config_median = config_GetInt(config, "median", 5);
+	int config_erode = config_GetInt(config, "erode", 3);
+	int config_dilate = config_GetInt(config, "dilate", 3);
 
 	bool play = true;
 
@@ -96,6 +103,9 @@ void processVideo(char *src, unordered_map<string, string> config)
 			if (!cap.read(origin)) {
 				break;
 			}
+
+			printf("\rProgress: %f%%", no_frame / 202518.0 * 100.0);
+			no_frame += 1;
 
 			Rect sensorRect(
 					Point(sensor->xstart, sensor->ystart),
@@ -111,7 +121,7 @@ void processVideo(char *src, unordered_map<string, string> config)
 					libvibeModel_Sequential_New();
 
 				libvibeModel_Sequential_SetMatchingThreshold(model,
-						config_GetInt(config, "threshold", 32));
+						config_GetInt(config, "vibe_thres", 32));
 
 				libvibeModel_Sequential_AllocInit_8u_C3R(model,
 						croppedOrigin.data,
@@ -127,32 +137,39 @@ void processVideo(char *src, unordered_map<string, string> config)
 					foreground.data);
 
 			refineBinaryImage(foreground,
-					config_GetInt(config, "median", 5),
-					config_GetInt(config, "erode", 3),
-					config_GetInt(config, "dilate", 3));
+					config_median,
+					config_erode,
+					config_dilate);
 
 			sensor_Feed(sensor, foreground);
-			drawer_DrawSensor(origin, sensor);
+			//drawer_DrawSensor(origin, sensor);
 
-			imshow("Origin", origin);
-			imshow("Foreground", foreground);
+			//imshow("Origin", origin);
+			//imshow("Foreground", foreground);
+			//printf("\rUp: %f (%d), Down: %f (%d)",
+					//sensor->up / sensor->ratio,
+					//sensor->up,
+					//sensor->down/sensor->ratio,
+					//sensor->down);
 
 		}
-		char wkey = waitKey(speed);
-		if (wkey == 'p') {
-			play = !play;
-		} else if (wkey == 'q') {
-			break;
-		} else if (wkey == 'w' || wkey == 'h'){
-			gui_flag = wkey;
-		} else if (wkey == '1') {
-			speed = 28;
-		} else if (wkey == '2') {
-			speed = 500;
-		}
+		//char wkey = waitKey(speed);
+		//if (wkey == 'p') {
+			//play = !play;
+		//} else if (wkey == 'q') {
+			//break;
+		//} else if (wkey == 'w' || wkey == 'h'){
+			//gui_flag = wkey;
+		//} else if (wkey == '1') {
+			//speed = 10;
+		//} else if (wkey == '2') {
+			//speed = 2000;
+		//}
 	}
 
+
 	cap.release();
+	sensor_Export(sensor, fname);
 	sensor_Free(sensor);
 	libvibeModel_Sequential_Free(model);
 }

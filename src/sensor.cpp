@@ -9,9 +9,14 @@
 
 using namespace std;
 
-Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str, double _thr)
+Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str,
+		double _thr, double _ratio)
 {
 	Sensor *ret = (Sensor*) malloc(sizeof(Sensor));
+	ret->up = 0;
+	ret->down = 0;
+	ret->ratio = _ratio;
+
 	ret->x = _x;
 	ret->y = _y;
 	ret->h = _h;
@@ -44,8 +49,18 @@ Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str, double _thr)
 	ret->xend = ret->x + ret->w;
 	ret->ystart = ret->y - ret->h;
 	ret->yend = ret->y + ret->h;
-	
-	ret->cell_thr = (int) (((double) ret->cell_area) * _thr);
+
+	ret->cell_thr_ratio = _thr;
+	ret->cell_thr = ret->cell_area * _thr;
+
+	printf("Sensor Info:\n");
+	printf("Width = %d\n", ret->w);
+	printf("Height = %d\n", ret->h);
+	printf("Number of stripes = %d\n", ret->no_str);
+	printf("Cell's threshold area= %d\n", ret->cell_thr);
+	printf("Cell's threshold ratio= %f\n", ret->cell_thr_ratio);
+	printf("Ratio = %f\n", ret->ratio);
+
 	return ret;
 }
 
@@ -73,9 +88,6 @@ void sensor_GetRect(Sensor* _s, int _x, int _y, int* ret)
 	ret[3] = y + _s->h;
 }
 
-int down = 0;
-int up= 0;
-double ratio = 3.0;
 
 void sensor_Feed(Sensor* _s, const Mat& data)
 {
@@ -103,15 +115,30 @@ void sensor_Feed(Sensor* _s, const Mat& data)
 	}
 
 	for (int i = 0; i < _s->no_str * 2; ++i) {
-		if (_s->cell_pre_state[i][0] && _s->cell_pre_state[i][1]) {
-			if (!_s->cell_state[i][0]) {
-				down += 1;
-				//cout << "Stripe down active: " << i << endl;
-			} else if (!_s->cell_state[i][1]) {
-				//cout << "Stripe up active: " << i << endl;
-				up += 1;
-			}
+		if (_s->cell_state[i][1] && !_s->cell_pre_state[i][1] && _s->cell_pre_state[i][0]) {
+			_s->down += 1;
+		} else if (_s->cell_state[i][0] && !_s->cell_pre_state[i][0] && _s->cell_pre_state[i][1]) {
+			_s->up += 1;
 		}
 	}
-	printf ("\rUp = %d (%f), Down = %d (%f)", up, up / ratio,  down, down / ratio);
+	//printf("\rUp = %d, Down = %d", _s->up, _s->down);
+}
+
+void sensor_Export(Sensor* _s, const char *fname)
+{
+	FILE *p_file = fopen(fname, "w");
+
+	fprintf(p_file, "Sensor Info:\n");
+	fprintf(p_file, "Width = %d\n", _s->w);
+	fprintf(p_file, "Height = %d\n", _s->h);
+	fprintf(p_file, "Number of stripes = %d\n", _s->no_str);
+	fprintf(p_file, "Cell's threshold ratio= %f\n", _s->cell_thr_ratio);
+	fprintf(p_file, "Cell's threshold area = %d\n", _s->cell_thr);
+	fprintf(p_file, "Ratio = %f\n", _s->ratio);
+
+	fprintf(p_file, "Up = %d, Down = %d\n", _s->up, _s->down);
+	fprintf(p_file, "Appr. People: Up = %f, Down = %f\n", _s->up / _s->ratio,
+			_s->down / _s->ratio);
+
+	fclose(p_file);
 }

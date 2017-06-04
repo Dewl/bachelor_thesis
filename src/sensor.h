@@ -24,13 +24,18 @@ typedef struct _Sensor {
 	int xend;
 	int ystart;
 	int yend;
-	double cell_thr;
-
+	int cell_thr;
+	double cell_thr_ratio;
+	int down;
+	int up;
+	double ratio;
 } Sensor;
 
-Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str, double _thr);
+Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str, double _thr,
+		double ratio);
 void sensor_Free(Sensor *_s);
 void sensor_GetRect(Sensor* _s, int _x, int _y, int* ret);
 void sensor_Feed(Sensor* _s, const Mat& data);
+void sensor_Export(Sensor* _s, const char *fname);
 
 #endif /* !SENSOR_H */

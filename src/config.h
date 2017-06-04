@@ -11,7 +11,7 @@ void config_Write(unordered_map<string, string>& config,
 int config_GetInt(unordered_map<string, string>& config,
 		const string& key, int def);
 
-int config_GetDouble(unordered_map<string, string>& config,
+double config_GetDouble(unordered_map<string, string>& config,
 		const string& key, double def);
 
 void config_SetInt(unordered_map<string, string>& config,

@@ -1,6 +1,6 @@
 LIBS_OPENCV = `$(PREFIX)pkg-config --libs opencv`
 INCLUDE_OPENCV = `$(PREFIX)pkg-config --cflags opencv`
-OPT = -Wall -O2
+OPT = -Wall -O3
 OPT_CPP = -std=c++11
 
 all: vibe main cvutil config sensor drawer
