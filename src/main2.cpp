@@ -103,8 +103,6 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 				break;
 			}
 
-
-			//printf("\rProgress: %d/%d", no_frame , 202518);
 			no_frame += 1;
 
 			Rect sensorRect(
@@ -141,7 +139,7 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 					config_erode,
 					config_dilate);
 
-			sensor_Feed(sensor, foreground);
+			sensor_Feed(sensor, foreground.data, foreground.cols, foreground.rows);
 			drawer_DrawSensor(origin, sensor);
 
 
@@ -149,11 +147,13 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 
 			imshow("Origin", origin);
 			imshow("Foreground", foreground);
-			printf("\rUp: %f (%d), Down: %f (%d)",
-					sensor->up / sensor->ratio,
+			printf("\rUp: %d, Down: %d - ",
 					sensor->up,
-					sensor->down/sensor->ratio,
 					sensor->down);
+
+			for (int i = 0; i < sensor->no_str * 2; ++i) {
+				printf("%d ", sensor->str_state[i]);
+			}
 
 		}
 		char wkey = waitKey(speed);
@@ -172,7 +172,6 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 
 
 	cap.release();
-	sensor_Export(sensor, fname);
 	sensor_Free(sensor);
 	libvibeModel_Sequential_Free(model);
 }
@@ -183,6 +182,9 @@ void onMouse(int event, int x, int y, int flags, void* userdata)
 		sensor->x = x;
 		sensor->y = y;
 		config_SetInt(config, "sensor_x", x);
+			//for (int i = 0; i < sensor->no_str * 2; ++i) {
+				//printf("%d ", sensor->str_state[i]);
+			//}
 		config_SetInt(config, "sensor_y", y);
 	} else if (event == EVENT_RBUTTONDOWN) {
 		if (gui_flag == 'w') {

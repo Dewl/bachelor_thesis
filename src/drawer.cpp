@@ -37,6 +37,9 @@ void drawer_DrawSensor(Mat& canvas, Sensor* _s)
 			}
 		}
 	}
+
+	for (int i = 0; i < _s->no_str * 2; ++i) {
+	}
 }
 
 static void drawer_FillRectColor(Mat& _canvas,
