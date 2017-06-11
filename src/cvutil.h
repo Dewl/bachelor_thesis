@@ -40,6 +40,5 @@ using namespace std;
  */
 void refineBinaryImage(Mat& binImage, int median_blur, int erode, int dilate);
 
-int dist(int x1, int y1, int x2, int y2);
 
 #endif

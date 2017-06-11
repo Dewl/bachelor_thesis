@@ -12,7 +12,6 @@ unordered_map<string, string> config_Read(const char *fname)
 
 	string key, val;
 	while (in >> key >> val) {
-		cout << "debug:config:key=" << key <<", val=" << val << endl;
 		ret.insert(make_pair<string, string>
 				((string) key, (string) val));
 	}

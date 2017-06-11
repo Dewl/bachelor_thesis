@@ -134,11 +134,11 @@ void sensor_Export(Sensor* _s, const char *fname)
 	fprintf(p_file, "Number of stripes = %d\n", _s->no_str);
 	fprintf(p_file, "Cell's threshold ratio= %f\n", _s->cell_thr_ratio);
 	fprintf(p_file, "Cell's threshold area = %d\n", _s->cell_thr);
-	fprintf(p_file, "Ratio = %f\n", _s->ratio);
+	//fprintf(p_file, "Ratio = %f\n", _s->ratio);
 
 	fprintf(p_file, "Up = %d, Down = %d\n", _s->up, _s->down);
-	fprintf(p_file, "Appr. People: Up = %f, Down = %f\n", _s->up / _s->ratio,
-			_s->down / _s->ratio);
+	//fprintf(p_file, "Appr. People: Up = %f, Down = %f\n", _s->up / _s->ratio,
+			//_s->down / _s->ratio);
 
 	fclose(p_file);
 }
