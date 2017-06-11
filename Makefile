@@ -7,6 +7,10 @@ all: vibe main cvutil config sensor drawer
 	mkdir -p bin/
 	$(make link)
 
+all2: vibe main2 cvutil config sensor drawer
+	mkdir -p bin/
+	$(make link)
+
 vibe:
 	mkdir -p obj/
 	gcc $(OPT) -c src/vibe.c
@@ -15,6 +19,11 @@ vibe:
 main:
 	mkdir -p obj/
 	g++ $(OPT) $(OPT_CPP) -c src/main.cpp
+	mv *.o obj/
+
+main2:
+	mkdir -p obj/
+	g++ $(OPT) $(OPT_CPP) -c src/main2.cpp
 	mv *.o obj/
 
 config:
@@ -43,4 +52,7 @@ clean:
 
 link:
 	g++ $(OPT) $(INCLUDE_OPENCV) obj/*.o -o bin/main $(LIBS_OPENCV)
+
+link2:
+	g++ $(OPT) $(INCLUDE_OPENCV) obj/*.o -o bin/main2 $(LIBS_OPENCV)
 
