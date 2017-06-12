@@ -3,6 +3,15 @@
 #include <math.h>
 #include <stdio.h>
 
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
 Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str,
 		double _thr, double _human_ratio)
 {
@@ -20,6 +29,7 @@ Sensor *sensor_Alloc(int _x, int _y, int _h, int _w, int _no_str,
 	int total_str = _no_str * 2;
 
 	ret->str_state = malloc(total_str * sizeof(uint8_t ));
+	ret->str_timer = malloc(total_str * sizeof(uint8_t ));
 	for (int i = 0; i < total_str; ++i) {
 		ret->str_state[i] = 0;
 	}
@@ -61,6 +71,7 @@ void sensor_Free(Sensor *_s)
 	free(_s->cell_state);
 	free(_s->cell_pre_state);
 	free(_s->str_state);
+	free(_s->str_timer);
 	free(_s);
 }
 
@@ -112,11 +123,19 @@ void sensor_Feed(Sensor* _s, const uint8_t *_data, int _cols, int _rows)
 				_s->cell_pre_state[i][0]) {
 			// Going down
 			_s->str_state[i] = 2;
+			_s->str_timer[i] = 12;
 			
 		} else if (_s->cell_state[i][0] && !_s->cell_pre_state[i][0]
 				&& _s->cell_pre_state[i][1]) {
 			// Going up
 			_s->str_state[i] = 1;
+			_s->str_timer[i] = 12;
+		} else {
+			_s->str_timer[i] -= 1;
+			if (_s->str_timer[i] <= 0) {
+				_s->str_timer[i] = 0;
+				_s->str_state[i] = 0;
+			}
 		}
 	}
 
@@ -138,7 +157,8 @@ void sensor_Feed(Sensor* _s, const uint8_t *_data, int _cols, int _rows)
 				for (int i = p0; i < p1; ++i) {
 					_s->str_state[i] = 0;
 				}
-				_s->down += floor(len / _s->human_ratio);
+				_s->down += len / _s->human_ratio;
+				printf("%sdebug:sensor:DOWN = %d, from %d to %d\n", KRED, (int) (len / _s->human_ratio), p0, p1 - 1);
 			}
 			p0 = p1;
 		} else {
@@ -162,6 +182,7 @@ void sensor_Feed(Sensor* _s, const uint8_t *_data, int _cols, int _rows)
 					_s->str_state[i] = 0;
 				}
 				_s->up += floor(len / _s->human_ratio);
+				printf("%sdebug:sensor:UP = %d, from %d to %d\n", KBLU, (int) (len / _s->human_ratio), p0, p1 - 1);
 			}
 			p0 = p1;
 		} else {

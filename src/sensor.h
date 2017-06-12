@@ -18,6 +18,7 @@ typedef struct _Sensor {
 	int w;
 	int no_str;
 	uint8_t  *str_state;
+	uint8_t *str_timer;
 	uint8_t  **cell_state;	// 0: inactivated, 1: up, 2: down
 	uint16_t **cell_counter;
 	uint8_t  **cell_pre_state;
