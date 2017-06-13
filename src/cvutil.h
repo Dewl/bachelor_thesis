@@ -30,8 +30,6 @@
 #include <vector>
 #include <opencv/cv.h>
 
-#include "contour.h"
-
 using namespace cv;
 using namespace std;
 
@@ -40,100 +38,7 @@ using namespace std;
  *
  * @param binImage
  */
-void refineBinaryImage(Mat& binImage);
+void refineBinaryImage(Mat& binImage, int median_blur, int erode, int dilate);
 
 
-/**
- * @brief Draws a rectangle given a Rect
- *
- * @param canvas
- * @param rect
- */
-void drawRect(Mat& canvas, const Rect& rect);
-
-
-/**
- * @brief Draws a point given a Point
- *
- * @param point
- */
-void drawPoint(Mat& canvas, const Point& point);
-
-
-/**
- * @brief Writes a string in the middle of a rect
- *
- * @param canvas
- * @param str
- * @param rect
- */
-void drawTextRect(Mat& canvas, const string& str, const Rect& rect);
-
-/**
- * @brief  Returns rectangle's centroid
- *
- * @param rect
- *
- * @return Point
- */
-Point rectCentroid(const Rect& rect);
-
-
-/**
- * @brief Returns the center point of a contour.
- *
- * @param contour
- *
- * @return Ponit - center
- */
-Point contourCentroid(const Contour& _contour);
-
-/**
- * @brief Puts text to frame.
- *
- * @param canvas
- * @param str
- * @param Point
- */
-void drawText(Mat& canvas, const string& str, const Point& point);
-
-/**
- * @brief Returns the rectangle's ratio which is the value
- * of width/height of a rectangle.
- * Note, this value is always no larger than 1.0 .
- *
- * @param rect
- *
- * @return 
- */
-double rectRatio(const Rect& rect);
-
-/**
- * @brief Returns the rectangle's ratio of the current blob's bounding
- * rectangle.
- *
- * @param _contour
- *
- * @return 
- */
-double contourBoundingRatio(const Contour& _contour);
-
-/**
- * @brief Draws a vertical line.
- *
- * @param canvas
- * @param x
- */
-void drawVerticalLine(Mat& canvas, int x);
-
-/**
- * @brief Calculate Euclidean distance between two points.
- *
- * @param point1
- * @param point2
- *
- * @return 
- */
-double euclideanDistance(const Point& point1, const Point& point2);
-
-#endif /* !MATUTIL_H */
+#endif
