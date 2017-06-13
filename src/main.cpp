@@ -133,7 +133,7 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 		erode(foreground,foreground, Mat(), Point(-1, -1), config_erode);
 		dilate(foreground, foreground, Mat(), Point(-1, -1), config_dilate);
 
-		sensor_Feed(sensor, foreground);
+		sensor_Feed(sensor, foreground.data, foreground.cols, foreground.rows);
 		no_frame += 1;
 
 		if (no_frame % 10000 == 0) {
@@ -154,7 +154,6 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 
 	printf("Releasing resources\n");
 	cap.release();
-	sensor_Export(sensor, fname);
 	sensor_Free(sensor);
 	libvibeModel_Sequential_Free(model);
 }

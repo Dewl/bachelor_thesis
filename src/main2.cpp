@@ -96,15 +96,13 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 	int config_dilate = config_GetInt(config, "dilate", 3);
 
 	bool play = true;
-
+	char buffer[64];
 	while (true) {
 		if (play) {
 			if (!cap.read(origin)) {
 				break;
 			}
 
-
-			//printf("\rProgress: %d/%d", no_frame , 202518);
 			no_frame += 1;
 
 			Rect sensorRect(
@@ -141,19 +139,24 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 					config_erode,
 					config_dilate);
 
-			sensor_Feed(sensor, foreground);
+			sensor_Feed(sensor, foreground.data, foreground.cols, foreground.rows);
 			drawer_DrawSensor(origin, sensor);
 
+			sprintf(buffer, "Down = %d, Up = %d", sensor->down, sensor->up);
 
-			putText(origin, to_string(no_frame).c_str(), Point(50,50), FONT_HERSHEY_PLAIN, 2,  Scalar(0,255,0,255));
+			putText(origin, to_string(no_frame).c_str(), Point(40,40), FONT_HERSHEY_PLAIN, 2,  COLOR_PURPLE, 2);
+			putText(origin, buffer, Point(50,620), FONT_HERSHEY_PLAIN, 2,  COLOR_RED, 2);
 
 			imshow("Origin", origin);
 			imshow("Foreground", foreground);
-			printf("\rUp: %f (%d), Down: %f (%d)",
-					sensor->up / sensor->ratio,
-					sensor->up,
-					sensor->down/sensor->ratio,
-					sensor->down);
+			//printf("\rUp: %d, Down: %d - ",
+					//sensor->up,
+					//sensor->down);
+
+			//printf("\r");
+			//for (int i = 0; i < sensor->no_str * 2; ++i) {
+				//printf("%d ", sensor->str_state[i]);
+			//}
 
 		}
 		char wkey = waitKey(speed);
@@ -164,7 +167,7 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 		} else if (wkey == 'w' || wkey == 'h'){
 			gui_flag = wkey;
 		} else if (wkey == '1') {
-			speed = 1;
+			speed = config_GetInt(config, "speed", 1);
 		} else if (wkey == '2') {
 			speed = 200000;
 		}
@@ -172,7 +175,6 @@ void processVideo(char *src, unordered_map<string, string> config, const char *f
 
 
 	cap.release();
-	sensor_Export(sensor, fname);
 	sensor_Free(sensor);
 	libvibeModel_Sequential_Free(model);
 }
@@ -183,6 +185,9 @@ void onMouse(int event, int x, int y, int flags, void* userdata)
 		sensor->x = x;
 		sensor->y = y;
 		config_SetInt(config, "sensor_x", x);
+			//for (int i = 0; i < sensor->no_str * 2; ++i) {
+				//printf("%d ", sensor->str_state[i]);
+			//}
 		config_SetInt(config, "sensor_y", y);
 	} else if (event == EVENT_RBUTTONDOWN) {
 		if (gui_flag == 'w') {
