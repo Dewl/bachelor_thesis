@@ -1,0 +1,14 @@
+dilate 16
+vibe_thres 21
+sensor_thr 1.9
+speed 4
+median 3
+sensor_str 9
+sensor_h 65
+sensor_cell_ratio 0.3
+sensor_y 150
+sensor_ratio 3
+erode 8
+key 327
+sensor_w 240
+sensor_x 240
