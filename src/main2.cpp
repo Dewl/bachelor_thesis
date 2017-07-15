@@ -61,8 +61,8 @@ int main(int args, char **argv)
 	config = config_Read(argv[2]);
 	namedWindow("Origin", WINDOW_AUTOSIZE);
 	namedWindow("Foreground", WINDOW_AUTOSIZE);
-	setMouseCallback("Origin", onMouse, NULL);
-	setMouseCallback("Foreground", onMouse2, NULL);
+	//setMouseCallback("Origin", onMouse, NULL);
+	//setMouseCallback("Foreground", onMouse2, NULL);
 	processVideo(argv[1], config, argv[3]);
 	destroyAllWindows();
 	config_Write(config, argv[2]);

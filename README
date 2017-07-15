@@ -1,5 +1,63 @@
-TODO
+NOTE
 ====
+There are two build options:
+	* Option 1: For full-blown running, this build DOESN'T display 
+	  anything and doesn't have delay between frames. This option is for 
+	  computational performance testing only.
+	* Option 2: This is what you need to build and run, it displays the
+	  frames and has the sensor shown on the screen. The program has
+	  several controling functionalities that will be discussed later.
 
-1. Shadow removal by increasing threshold
-2. Virtual Sensor
+So, what you need to do, is to BUILD THE SECOND OPTION.
+Moreover, this project is built purely in GNU/Linux environment, If you use
+Windows, please install cygwin and other stuff or consider installing a virtual
+box instead.
+
+DEPENDENCIES
+==========
+	* GNU GCC 7.7.1 or higher
+	* GNU Make 4.2.1 or higher
+	* OpenCV 2.4 or higher
+
+BUILDING
+========
+Go to the project's directory and use GNU Make to build the project.
+
+	$ make all2 link2
+
+If all the dependencies is correctly installed, then it should be done smoothly.
+The objects files are located in obj/ and binary builds are in bin/
+
+RUNNING
+=======
+After building, an executable main2 would be located in bin/.
+We have already set up a testing environment for quick a demonstration. Do not
+modify any files here unless you know what exactly you are doing.
+
+Note that, you need to download dataset for testing: https://drive.google.com/file/d/0B75hMYK3LqyINVdTWWJLaWlsRmM/view?usp=sharing
+
+After download that 7zip file, decrompress it and move out.avi to test/
+
+	$ cd test/
+	$ ./run2.sh
+
+run2.sh executes the program with constant variables listed in config1.txt,
+it takes out.avi as an input stream and write the final result to result1.txt,
+note that the result file output is NOT implemented yet.
+
+Input Stream control is integrated to the application. During the run, press 2
+to 'freeze' the stream, continuously press 2 for feeding frame by frame. Press
+1 to return the normal speed and p for pause toggling.
+
+APPENDIX
+========
+OpenCV 2.4 installation
+-----------------------
+
+	$ git clone https://github.com/opencv/opencv.git
+	$ cd opencv
+	$ git checkout 2.4
+	$ mkdir build
+	$ cd build
+	$ cmake ..
+	$ sudo make install
